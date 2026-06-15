@@ -73,6 +73,8 @@ function ClientsList() {
     navigate({ to: "/auth", replace: true });
   }
 
+  const isEmpty = !isLoading && filtered.length === 0;
+
   return (
     <AppShell
       right={
@@ -85,26 +87,31 @@ function ClientsList() {
         </button>
       }
     >
-      <div className="relative -mx-5 -mt-2 px-5 pb-2 overflow-hidden">
-        {/* Hintergrund-Illustration */}
-        <img
-          src={womanHair}
-          alt=""
-          aria-hidden
-          width={1024}
-          height={1024}
-          className="pointer-events-none select-none absolute -right-16 -top-4 w-[280px] sm:w-[340px] opacity-70 mix-blend-multiply"
-          style={{ maskImage: "linear-gradient(to left, black 40%, transparent 95%)", WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 95%)" }}
-        />
+      {/* Hintergrund-Illustration: groß, rechts, von oben bis unten */}
+      <img
+        src={womanHair}
+        alt=""
+        aria-hidden
+        className="pointer-events-none select-none fixed right-0 bottom-0 z-0 h-[78vh] w-auto max-w-[78vw] opacity-90"
+        style={{
+          maskImage:
+            "linear-gradient(to left, black 55%, transparent 100%), linear-gradient(to top, black 70%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to left, black 55%, transparent 100%), linear-gradient(to top, black 70%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
 
-        <div className="relative pt-2 pb-6">
+      <div className="relative z-10">
+        <div className="pt-2 pb-6">
           <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-primary">
             Dein Farbarchiv
           </p>
           <h1 className="font-serif text-5xl mt-2 leading-none">
             Tinta<span className="text-primary">.</span>
           </h1>
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-muted-foreground mt-2 max-w-[60%]">
             {data?.length ?? 0} {data?.length === 1 ? "Kundin" : "Kundinnen"} — jede Formel sicher verwahrt.
           </p>
         </div>
@@ -118,45 +125,45 @@ function ClientsList() {
             className="pl-12 h-14 rounded-full bg-card/90 backdrop-blur border-border shadow-[0_8px_30px_-12px_rgba(217,143,168,0.35)]"
           />
         </div>
-      </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <div className="space-y-3">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="h-20 card-soft animate-pulse" />
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <EmptyState hasAny={!!data?.length} />
-        ) : (
-          <ul className="space-y-2.5">
-            {filtered.map((c, idx) => (
-              <motion.li
-                key={c.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.03, duration: 0.25 }}
-              >
-                <Link
-                  to="/clients/$clientId"
-                  params={{ clientId: c.id }}
-                  className="card-soft p-4 flex items-center gap-4 hover:shadow-glow transition-all"
+        <div className="mt-6">
+          {isLoading ? (
+            <div className="space-y-3">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-20 card-soft animate-pulse" />
+              ))}
+            </div>
+          ) : isEmpty ? (
+            <EmptyState hasAny={!!data?.length} />
+          ) : (
+            <ul className="space-y-2.5">
+              {filtered.map((c, idx) => (
+                <motion.li
+                  key={c.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.03, duration: 0.25 }}
                 >
-                  <Monogram name={c.name} size={48} />
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">{c.name}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {c.recipes.count === 0
-                        ? "Noch keine Rezepturen"
-                        : `${c.recipes.count} ${c.recipes.count === 1 ? "Rezeptur" : "Rezepturen"}${c.recipes.latest ? " · zuletzt " + formatDateDE(c.recipes.latest) : ""}`}
+                  <Link
+                    to="/clients/$clientId"
+                    params={{ clientId: c.id }}
+                    className="card-soft p-4 flex items-center gap-4 hover:shadow-glow transition-all bg-card/95 backdrop-blur"
+                  >
+                    <Monogram name={c.name} size={48} />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{c.name}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {c.recipes.count === 0
+                          ? "Noch keine Rezepturen"
+                          : `${c.recipes.count} ${c.recipes.count === 1 ? "Rezeptur" : "Rezepturen"}${c.recipes.latest ? " · zuletzt " + formatDateDE(c.recipes.latest) : ""}`}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.li>
-            ))}
-          </ul>
-        )}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <Link

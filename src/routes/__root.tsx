@@ -91,6 +91,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Tinta speichert deine Farbrezepturen pro Kundin — damit du jede Farbe exakt reproduzieren kannst.",
       },
+      { property: "og:title", content: "Tinta — Farbrezepturen" },
+      {
+        property: "og:description",
+        content:
+          "Digitale Farbrezeptur-Verwaltung für Friseur:innen: Kundinnen, Formeln und Rezepturen sicher speichern.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Tinta — Farbrezepturen" },
+      {
+        name: "twitter:description",
+        content:
+          "Digitale Farbrezeptur-Verwaltung für Friseur:innen: Kundinnen, Formeln und Rezepturen sicher speichern.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -85,13 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { name: "apple-mobile-web-app-title", content: "Tinta" },
-      { title: "Tinta — Farbrezepturen" },
+      { title: "Tinta — Das Farbgedächtnis" },
       {
         name: "description",
         content:
           "Tinta speichert deine Farbrezepturen pro Kundin — damit du jede Farbe exakt reproduzieren kannst.",
       },
-      { property: "og:title", content: "Tinta — Farbrezepturen" },
+      { property: "og:title", content: "Tinta — Das Farbgedächtnis" },
       {
         property: "og:description",
         content:
@@ -99,12 +99,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Tinta — Farbrezepturen" },
+      { name: "twitter:title", content: "Tinta — Das Farbgedächtnis" },
       {
         name: "twitter:description",
         content:
           "Digitale Farbrezeptur-Verwaltung für Friseur:innen: Kundinnen, Formeln und Rezepturen sicher speichern.",
       },
+      { name: "description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
+Schluss mit Notizzetteln.
+Reproduziere jede Farbe perfekt." },
+      { property: "og:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
+Schluss mit Notizzetteln.
+Reproduziere jede Farbe perfekt." },
+      { name: "twitter:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
+Schluss mit Notizzetteln.
+Reproduziere jede Farbe perfekt." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

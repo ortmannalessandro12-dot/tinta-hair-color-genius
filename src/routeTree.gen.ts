@@ -15,6 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as AuthenticatedClientsNewRouteImport } from './routes/_authenticated/clients.new'
 import { Route as AuthenticatedClientsClientIdIndexRouteImport } from './routes/_authenticated/clients.$clientId.index'
+import { Route as AuthenticatedClientsClientIdRecipesNewRouteImport } from './routes/_authenticated/clients.$clientId.recipes.new'
+import { Route as AuthenticatedClientsClientIdRecipesRecipeIdRouteImport } from './routes/_authenticated/clients.$clientId.recipes.$recipeId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -47,6 +49,18 @@ const AuthenticatedClientsClientIdIndexRoute =
     path: '/clients/$clientId/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedClientsClientIdRecipesNewRoute =
+  AuthenticatedClientsClientIdRecipesNewRouteImport.update({
+    id: '/clients/$clientId/recipes/new',
+    path: '/clients/$clientId/recipes/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedClientsClientIdRecipesRecipeIdRoute =
+  AuthenticatedClientsClientIdRecipesRecipeIdRouteImport.update({
+    id: '/clients/$clientId/recipes/$recipeId',
+    path: '/clients/$clientId/recipes/$recipeId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +68,8 @@ export interface FileRoutesByFullPath {
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/clients/$clientId/': typeof AuthenticatedClientsClientIdIndexRoute
+  '/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
+  '/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,6 +77,8 @@ export interface FileRoutesByTo {
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/clients/$clientId': typeof AuthenticatedClientsClientIdIndexRoute
+  '/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
+  '/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,6 +88,8 @@ export interface FileRoutesById {
   '/_authenticated/clients/new': typeof AuthenticatedClientsNewRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/clients/$clientId/': typeof AuthenticatedClientsClientIdIndexRoute
+  '/_authenticated/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
+  '/_authenticated/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,8 +99,17 @@ export interface FileRouteTypes {
     | '/clients/new'
     | '/clients/'
     | '/clients/$clientId/'
+    | '/clients/$clientId/recipes/$recipeId'
+    | '/clients/$clientId/recipes/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/clients/new' | '/clients' | '/clients/$clientId'
+  to:
+    | '/'
+    | '/auth'
+    | '/clients/new'
+    | '/clients'
+    | '/clients/$clientId'
+    | '/clients/$clientId/recipes/$recipeId'
+    | '/clients/$clientId/recipes/new'
   id:
     | '__root__'
     | '/'
@@ -89,6 +118,8 @@ export interface FileRouteTypes {
     | '/_authenticated/clients/new'
     | '/_authenticated/clients/'
     | '/_authenticated/clients/$clientId/'
+    | '/_authenticated/clients/$clientId/recipes/$recipeId'
+    | '/_authenticated/clients/$clientId/recipes/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -141,6 +172,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsClientIdIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/clients/$clientId/recipes/new': {
+      id: '/_authenticated/clients/$clientId/recipes/new'
+      path: '/clients/$clientId/recipes/new'
+      fullPath: '/clients/$clientId/recipes/new'
+      preLoaderRoute: typeof AuthenticatedClientsClientIdRecipesNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/clients/$clientId/recipes/$recipeId': {
+      id: '/_authenticated/clients/$clientId/recipes/$recipeId'
+      path: '/clients/$clientId/recipes/$recipeId'
+      fullPath: '/clients/$clientId/recipes/$recipeId'
+      preLoaderRoute: typeof AuthenticatedClientsClientIdRecipesRecipeIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -148,6 +193,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsNewRoute: typeof AuthenticatedClientsNewRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
   AuthenticatedClientsClientIdIndexRoute: typeof AuthenticatedClientsClientIdIndexRoute
+  AuthenticatedClientsClientIdRecipesRecipeIdRoute: typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
+  AuthenticatedClientsClientIdRecipesNewRoute: typeof AuthenticatedClientsClientIdRecipesNewRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -155,6 +202,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
   AuthenticatedClientsClientIdIndexRoute:
     AuthenticatedClientsClientIdIndexRoute,
+  AuthenticatedClientsClientIdRecipesRecipeIdRoute:
+    AuthenticatedClientsClientIdRecipesRecipeIdRoute,
+  AuthenticatedClientsClientIdRecipesNewRoute:
+    AuthenticatedClientsClientIdRecipesNewRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

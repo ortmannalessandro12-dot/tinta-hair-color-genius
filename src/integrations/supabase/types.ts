@@ -14,7 +14,130 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      clients: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          note: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          note?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          note?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      recipe_components: {
+        Row: {
+          brand: string
+          brand_custom: string | null
+          correction: string | null
+          created_at: string
+          developer: string | null
+          grams: number
+          id: string
+          position: number
+          recipe_id: string
+          shade: string
+          shade_custom: string | null
+          time_minutes: number | null
+          user_id: string
+        }
+        Insert: {
+          brand: string
+          brand_custom?: string | null
+          correction?: string | null
+          created_at?: string
+          developer?: string | null
+          grams?: number
+          id?: string
+          position?: number
+          recipe_id: string
+          shade: string
+          shade_custom?: string | null
+          time_minutes?: number | null
+          user_id: string
+        }
+        Update: {
+          brand?: string
+          brand_custom?: string | null
+          correction?: string | null
+          created_at?: string
+          developer?: string | null
+          grams?: number
+          id?: string
+          position?: number
+          recipe_id?: string
+          shade?: string
+          shade_custom?: string | null
+          time_minutes?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_components_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipes: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          note: string | null
+          result_photo_path: string | null
+          treatment: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          result_photo_path?: string | null
+          treatment: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          result_photo_path?: string | null
+          treatment?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

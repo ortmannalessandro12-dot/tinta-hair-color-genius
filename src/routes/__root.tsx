@@ -105,15 +105,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Digitale Farbrezeptur-Verwaltung für Friseur:innen: Kundinnen, Formeln und Rezepturen sicher speichern.",
       },
-      { name: "description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
-Schluss mit Notizzetteln.
-Reproduziere jede Farbe perfekt." },
-      { property: "og:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
-Schluss mit Notizzetteln.
-Reproduziere jede Farbe perfekt." },
-      { name: "twitter:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. 
-Schluss mit Notizzetteln.
-Reproduziere jede Farbe perfekt." },
+      { name: "description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. Schluss mit Notizzetteln. Reproduziere jede Farbe perfekt." },
+      { property: "og:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. Schluss mit Notizzetteln. Reproduziere jede Farbe perfekt." },
+      { name: "twitter:description", content: "Tinta speichert deine Farbrezepturen auf das Gramm genau pro Kundin, jederzeit abrufbar. Schluss mit Notizzetteln. Reproduziere jede Farbe perfekt." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

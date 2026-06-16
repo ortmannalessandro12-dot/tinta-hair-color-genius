@@ -37,6 +37,7 @@ export function AppShell({
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-5 pt-6">{children}</main>
+      <PWAInstallPrompt />
     </div>
   );
 }

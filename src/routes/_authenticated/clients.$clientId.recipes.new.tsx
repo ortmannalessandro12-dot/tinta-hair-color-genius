@@ -165,7 +165,13 @@ function NewRecipe() {
                 </div>
 
                 <Field label="Marke">
-                  <Pick value={c.brand} onChange={(v) => update(c.id, { brand: v })} options={BRANDS} />
+                  <Pick
+                    value={c.brand}
+                    onChange={(v) =>
+                      update(c.id, { brand: v, shade: "", shade_custom: "", brand_custom: "" })
+                    }
+                    options={BRANDS}
+                  />
                 </Field>
                 {c.brand === "Andere…" && (
                   <Input
@@ -174,6 +180,16 @@ function NewRecipe() {
                     onChange={(e) => update(c.id, { brand_custom: e.target.value })}
                   />
                 )}
+
+                <Field label="Ton / Nuance">
+                  <Pick
+                    value={c.shade}
+                    onChange={(v) => update(c.id, { shade: v })}
+                    options={c.brand && c.brand !== "Andere…" ? BRAND_SHADES[c.brand] ?? ["Andere…"] : ["Andere…"]}
+                    placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
+                  />
+                </Field>
+                {/* legacy shade block follows */}
 
                 <Field label="Ton / Nuance">
                   <Pick value={c.shade} onChange={(v) => update(c.id, { shade: v })} options={SHADES} />

@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
@@ -17,6 +18,10 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("tinta-remember") !== "false";
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

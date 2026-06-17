@@ -30,6 +30,12 @@ function AuthPage() {
     });
   }, [navigate]);
 
+  function persistRememberPreference() {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("tinta-remember", remember ? "true" : "false");
+    sessionStorage.setItem("tinta-tab-alive", "1");
+  }
+
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -44,6 +50,7 @@ function AuthPage() {
         toast.success("Konto erstellt. Du kannst dich jetzt anmelden.");
         setMode("signin");
       } else {
+        persistRememberPreference();
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         navigate({ to: "/clients", replace: true });
@@ -56,6 +63,7 @@ function AuthPage() {
   }
 
   async function handleOAuth(provider: "google" | "apple") {
+    persistRememberPreference();
     const res = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin });
     if (res.error) toast.error("Anmeldung fehlgeschlagen.");
     else if (!res.redirected) navigate({ to: "/clients", replace: true });

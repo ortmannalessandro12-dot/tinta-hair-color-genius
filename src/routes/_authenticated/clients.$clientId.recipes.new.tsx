@@ -189,11 +189,8 @@ function NewRecipe() {
                     placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
                   />
                 </Field>
-                {/* legacy shade block follows */}
 
-                <Field label="Ton / Nuance">
-                  <Pick value={c.shade} onChange={(v) => update(c.id, { shade: v })} options={SHADES} />
-                </Field>
+
                 {c.shade === "Andere…" && (
                   <Input
                     placeholder="Ton eingeben"

@@ -121,6 +121,14 @@ function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+              <Checkbox
+                checked={remember}
+                onCheckedChange={(v) => setRemember(v === true)}
+                id="remember"
+              />
+              <span>Angemeldet bleiben</span>
+            </label>
             <Button type="submit" disabled={loading} className="w-full h-11 rounded-full">
               {loading ? "Moment …" : mode === "signin" ? "Anmelden" : "Konto erstellen"}
             </Button>

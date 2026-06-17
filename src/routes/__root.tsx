@@ -152,6 +152,35 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    // "Angemeldet bleiben" enforcement: if user opted out, the session
+    // only lives for the current tab. A fresh tab/restart has no
+    // sessionStorage marker → sign out so the stored localStorage
+    // session does not auto-restore.
+    let cancelled = false;
+    (async () => {
+      try {
+        const remember = localStorage.getItem("tinta-remember") !== "false";
+        const tabAlive = sessionStorage.getItem("tinta-tab-alive") === "1";
+        const { supabase } = await import("@/integrations/supabase/client");
+        const { data } = await supabase.auth.getSession();
+        if (cancelled) return;
+        if (data.session) {
+          if (!remember && !tabAlive) {
+            await supabase.auth.signOut();
+          } else {
+            sessionStorage.setItem("tinta-tab-alive", "1");
+          }
+        }
+      } catch {
+        /* noop */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />

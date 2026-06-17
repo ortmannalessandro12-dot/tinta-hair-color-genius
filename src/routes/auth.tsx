@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
@@ -17,6 +18,10 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("tinta-remember") !== "false";
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -24,6 +29,12 @@ function AuthPage() {
       if (data.user) navigate({ to: "/clients", replace: true });
     });
   }, [navigate]);
+
+  function persistRememberPreference() {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("tinta-remember", remember ? "true" : "false");
+    sessionStorage.setItem("tinta-tab-alive", "1");
+  }
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
@@ -39,6 +50,7 @@ function AuthPage() {
         toast.success("Konto erstellt. Du kannst dich jetzt anmelden.");
         setMode("signin");
       } else {
+        persistRememberPreference();
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         navigate({ to: "/clients", replace: true });
@@ -51,6 +63,7 @@ function AuthPage() {
   }
 
   async function handleOAuth(provider: "google" | "apple") {
+    persistRememberPreference();
     const res = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin });
     if (res.error) toast.error("Anmeldung fehlgeschlagen.");
     else if (!res.redirected) navigate({ to: "/clients", replace: true });
@@ -108,6 +121,14 @@ function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+              <Checkbox
+                checked={remember}
+                onCheckedChange={(v) => setRemember(v === true)}
+                id="remember"
+              />
+              <span>Angemeldet bleiben</span>
+            </label>
             <Button type="submit" disabled={loading} className="w-full h-11 rounded-full">
               {loading ? "Moment …" : mode === "signin" ? "Anmelden" : "Konto erstellen"}
             </Button>

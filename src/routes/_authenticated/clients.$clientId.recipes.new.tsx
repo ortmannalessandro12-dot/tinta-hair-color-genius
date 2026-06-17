@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BRANDS, CORRECTIONS, DEVELOPERS, SHADES, TIMES, TREATMENTS } from "@/lib/tinta";
+import { BRANDS, BRAND_SHADES, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS } from "@/lib/tinta";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
@@ -165,7 +165,13 @@ function NewRecipe() {
                 </div>
 
                 <Field label="Marke">
-                  <Pick value={c.brand} onChange={(v) => update(c.id, { brand: v })} options={BRANDS} />
+                  <Pick
+                    value={c.brand}
+                    onChange={(v) =>
+                      update(c.id, { brand: v, shade: "", shade_custom: "", brand_custom: "" })
+                    }
+                    options={BRANDS}
+                  />
                 </Field>
                 {c.brand === "Andere…" && (
                   <Input
@@ -176,8 +182,15 @@ function NewRecipe() {
                 )}
 
                 <Field label="Ton / Nuance">
-                  <Pick value={c.shade} onChange={(v) => update(c.id, { shade: v })} options={SHADES} />
+                  <Pick
+                    value={c.shade}
+                    onChange={(v) => update(c.id, { shade: v })}
+                    options={c.brand && c.brand !== "Andere…" ? BRAND_SHADES[c.brand] ?? ["Andere…"] : ["Andere…"]}
+                    placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
+                  />
                 </Field>
+
+
                 {c.shade === "Andere…" && (
                   <Input
                     placeholder="Ton eingeben"

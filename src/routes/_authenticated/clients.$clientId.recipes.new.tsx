@@ -185,8 +185,8 @@ function NewRecipe() {
                 <Field label="Ton / Nuance">
                   <Pick
                     value={c.shade}
-                   options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
-
+                    onChange={(v) => update(c.id, { shade: v, shade_custom: "" })}
+                    options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
                     placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
                   />
                 </Field>

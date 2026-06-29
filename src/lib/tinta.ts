@@ -99,7 +99,10 @@ export const BRAND_SHADES: Record<string, string[]> = {
 };
 
 export const BRANDS = Object.keys(BRAND_SHADES) as readonly string[];
-export const SHADES: readonly string[] = ["Andere…"];
+export const getShadesForBrand = (brand: string): readonly string[] => {
+  return BRAND_SHADES[brand] ?? ["Andere…"];
+};
+
 
 export const CORRECTIONS = [
   "Keine","Anti-Gelb Silber","Anti-Orange Blau","Anti-Rot Grün",

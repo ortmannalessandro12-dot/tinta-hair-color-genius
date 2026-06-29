@@ -185,8 +185,7 @@ function NewRecipe() {
                 <Field label="Ton / Nuance">
                   <Pick
                     value={c.shade}
-                   options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
-
+                    options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
                     placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
                   />
                 </Field>

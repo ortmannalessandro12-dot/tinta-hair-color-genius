@@ -187,7 +187,6 @@ function NewRecipe() {
                     value={c.shade}
                    options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
 
-                    options={c.brand && c.brand !== "Andere…" ? BRAND_SHADES[c.brand] ?? ["Andere…"] : ["Andere…"]}
                     placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
                   />
                 </Field>

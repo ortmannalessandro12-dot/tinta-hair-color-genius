@@ -58,6 +58,7 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
             return;
           }
           const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
+          const periodEnd = (sub as unknown as { current_period_end?: number }).current_period_end;
           await supabaseAdmin
             .from("subscriptions")
             .upsert(
@@ -66,7 +67,7 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
                 stripe_customer_id: customerId,
                 stripe_subscription_id: sub.id,
                 status: mapStatus(sub.status),
-                current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
+                current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
                 trial_ends_at: sub.trial_end ? new Date(sub.trial_end * 1000).toISOString() : null,
               },
               { onConflict: "user_id" },
@@ -107,8 +108,11 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
               break;
             }
             case "invoice.payment_failed": {
-              const inv = event.data.object as Stripe.Invoice;
-              const subId = typeof inv.subscription === "string" ? inv.subscription : inv.subscription?.id;
+              const inv = event.data.object as unknown as {
+                subscription?: string | { id: string } | null;
+              };
+              const subRef = inv.subscription;
+              const subId = typeof subRef === "string" ? subRef : subRef?.id;
               if (subId) {
                 await supabaseAdmin
                   .from("subscriptions")

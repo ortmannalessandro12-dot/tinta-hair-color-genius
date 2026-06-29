@@ -48,7 +48,10 @@ function ClientProfile() {
 
   async function deleteClient() {
     const { error } = await supabase.from("clients").delete().eq("id", clientId);
-    if (error) return toast.error(error.message);
+    if (error) {
+      console.error("[delete-client]", error);
+      return toast.error("Löschen fehlgeschlagen. Bitte versuche es erneut.");
+    }
     qc.invalidateQueries({ queryKey: ["clients"] });
     toast.success("Kundin gelöscht");
     navigate({ to: "/clients" });

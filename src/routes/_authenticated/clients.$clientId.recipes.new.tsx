@@ -107,7 +107,8 @@ function NewRecipe() {
         params: { clientId, recipeId: recipe.id },
       });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Fehler beim Speichern");
+      console.error("[save-recipe]", err);
+      toast.error("Speichern fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setSaving(false);
     }

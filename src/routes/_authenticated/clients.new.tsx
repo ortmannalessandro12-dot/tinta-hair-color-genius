@@ -38,7 +38,8 @@ function NewClient() {
       toast.success("Kundin angelegt");
       navigate({ to: "/clients/$clientId", params: { clientId: data.id } });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Fehler beim Speichern");
+      console.error("[save-client]", err);
+      toast.error("Speichern fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setSaving(false);
     }

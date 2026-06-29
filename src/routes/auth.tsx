@@ -56,7 +56,8 @@ function AuthPage() {
         navigate({ to: "/clients", replace: true });
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Etwas ist schiefgelaufen.");
+      console.error("[auth]", err);
+      toast.error(mode === "signup" ? "Registrierung fehlgeschlagen. Bitte versuche es erneut." : "Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingaben.");
     } finally {
       setLoading(false);
     }

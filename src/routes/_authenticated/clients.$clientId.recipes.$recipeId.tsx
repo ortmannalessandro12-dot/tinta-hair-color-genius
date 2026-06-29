@@ -47,7 +47,10 @@ function RecipeDetail() {
 
   async function deleteRecipe() {
     const { error } = await supabase.from("recipes").delete().eq("id", recipeId);
-    if (error) return toast.error(error.message);
+    if (error) {
+      console.error("[delete-recipe]", error);
+      return toast.error("Löschen fehlgeschlagen. Bitte versuche es erneut.");
+    }
     qc.invalidateQueries({ queryKey: ["client", clientId] });
     toast.success("Rezeptur gelöscht");
     navigate({ to: "/clients/$clientId", params: { clientId } });

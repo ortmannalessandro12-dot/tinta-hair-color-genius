@@ -14,7 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BRANDS, BRAND_SHADES, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS } from "@/lib/tinta";
+import { BRANDS, BRAND_SHADES, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
+
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
@@ -184,7 +185,8 @@ function NewRecipe() {
                 <Field label="Ton / Nuance">
                   <Pick
                     value={c.shade}
-                    onChange={(v) => update(c.id, { shade: v })}
+                   options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
+
                     options={c.brand && c.brand !== "Andere…" ? BRAND_SHADES[c.brand] ?? ["Andere…"] : ["Andere…"]}
                     placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
                   />

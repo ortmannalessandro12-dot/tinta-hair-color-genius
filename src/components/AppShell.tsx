@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
+import { TrialChip } from "./TrialChip";
+
 
 export function AppShell({
   children,
@@ -33,7 +35,10 @@ export function AppShell({
             </Link>
           )}
           {title && <h1 className="font-serif text-lg flex-1 truncate">{title}</h1>}
-          <div className="ml-auto flex items-center gap-2">{right}</div>
+          <div className="ml-auto flex items-center gap-2">
+            <TrialChip />
+            {right}
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-5 pt-6">{children}</main>

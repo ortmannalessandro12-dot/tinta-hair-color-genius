@@ -40,15 +40,28 @@ function AuthPage() {
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" && !avvAccepted) {
+      toast.error("Bitte stimme dem Auftragsverarbeitungsvertrag zu.");
+      return;
+    }
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
+        // AVV-Zustimmung im Profil speichern (falls Session direkt aktiv)
+        if (data.user) {
+          await supabase
+            .from("profiles")
+            .upsert(
+              { user_id: data.user.id, avv_accepted_at: new Date().toISOString() },
+              { onConflict: "user_id" },
+            );
+        }
         toast.success("Konto erstellt. Du kannst dich jetzt anmelden.");
         setMode("signin");
       } else {
@@ -64,6 +77,7 @@ function AuthPage() {
       setLoading(false);
     }
   }
+
 
   async function handleOAuth(provider: "google" | "apple") {
     persistRememberPreference();

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { TrialChip } from "./TrialChip";
+import { AvvGate } from "./AvvGate";
+
 
 
 export function AppShell({

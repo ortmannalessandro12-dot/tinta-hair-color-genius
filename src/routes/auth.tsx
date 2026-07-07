@@ -146,9 +146,36 @@ function AuthPage() {
               />
               <span>Angemeldet bleiben</span>
             </label>
-            <Button type="submit" disabled={loading} className="w-full h-11 rounded-full">
+            {mode === "signup" && (
+              <label className="flex items-start gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+                <Checkbox
+                  checked={avvAccepted}
+                  onCheckedChange={(v) => setAvvAccepted(v === true)}
+                  id="avv"
+                  required
+                />
+                <span>
+                  Ich habe den{" "}
+                  <a
+                    href="/avv"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline text-primary"
+                  >
+                    Auftragsverarbeitungsvertrag
+                  </a>{" "}
+                  gelesen und stimme ihm zu.
+                </span>
+              </label>
+            )}
+            <Button
+              type="submit"
+              disabled={loading || (mode === "signup" && !avvAccepted)}
+              className="w-full h-11 rounded-full"
+            >
               {loading ? "Moment …" : mode === "signin" ? "Anmelden" : "Konto erstellen"}
             </Button>
+
           </form>
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">

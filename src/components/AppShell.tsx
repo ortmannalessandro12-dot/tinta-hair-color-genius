@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { TrialChip } from "./TrialChip";
+import { AvvGate } from "./AvvGate";
+
 
 
 export function AppShell({
@@ -42,7 +44,12 @@ export function AppShell({
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-5 pt-6">{children}</main>
+      <footer className="mx-auto max-w-2xl px-5 pt-10 pb-6 text-center text-xs text-muted-foreground">
+        <Link to="/avv" className="hover:text-foreground">Auftragsverarbeitungsvertrag</Link>
+      </footer>
       <PWAInstallPrompt />
+      <AvvGate />
     </div>
   );
 }
+

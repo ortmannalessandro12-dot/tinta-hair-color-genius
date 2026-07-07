@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AvvRouteImport } from './routes/avv'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -22,6 +23,11 @@ import { Route as AuthenticatedClientsClientIdIndexRouteImport } from './routes/
 import { Route as AuthenticatedClientsClientIdRecipesNewRouteImport } from './routes/_authenticated/clients.$clientId.recipes.new'
 import { Route as AuthenticatedClientsClientIdRecipesRecipeIdRouteImport } from './routes/_authenticated/clients.$clientId.recipes.$recipeId'
 
+const AvvRoute = AvvRouteImport.update({
+  id: '/avv',
+  path: '/avv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -90,6 +96,7 @@ const AuthenticatedClientsClientIdRecipesRecipeIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/avv': typeof AvvRoute
   '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/avv': typeof AvvRoute
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/avv': typeof AvvRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/subscribe': typeof AuthenticatedSubscribeRoute
   '/_authenticated/account/billing': typeof AuthenticatedAccountBillingRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/avv'
     | '/clients'
     | '/subscribe'
     | '/account/billing'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/avv'
     | '/subscribe'
     | '/account/billing'
     | '/clients/new'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/avv'
     | '/_authenticated/clients'
     | '/_authenticated/subscribe'
     | '/_authenticated/account/billing'
@@ -173,11 +185,19 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  AvvRoute: typeof AvvRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/avv': {
+      id: '/avv'
+      path: '/avv'
+      fullPath: '/avv'
+      preLoaderRoute: typeof AvvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -306,18 +326,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  AvvRoute: AvvRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

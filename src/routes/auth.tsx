@@ -18,11 +18,13 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [avvAccepted, setAvvAccepted] = useState(false);
   const [remember, setRemember] = useState(() => {
     if (typeof window === "undefined") return true;
     return localStorage.getItem("tinta-remember") !== "false";
   });
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -38,15 +40,28 @@ function AuthPage() {
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" && !avvAccepted) {
+      toast.error("Bitte stimme dem Auftragsverarbeitungsvertrag zu.");
+      return;
+    }
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
+        // AVV-Zustimmung im Profil speichern (falls Session direkt aktiv)
+        if (data.user) {
+          await supabase
+            .from("profiles")
+            .upsert(
+              { user_id: data.user.id, avv_accepted_at: new Date().toISOString() },
+              { onConflict: "user_id" },
+            );
+        }
         toast.success("Konto erstellt. Du kannst dich jetzt anmelden.");
         setMode("signin");
       } else {
@@ -62,6 +77,7 @@ function AuthPage() {
       setLoading(false);
     }
   }
+
 
   async function handleOAuth(provider: "google" | "apple") {
     persistRememberPreference();
@@ -130,9 +146,36 @@ function AuthPage() {
               />
               <span>Angemeldet bleiben</span>
             </label>
-            <Button type="submit" disabled={loading} className="w-full h-11 rounded-full">
+            {mode === "signup" && (
+              <label className="flex items-start gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+                <Checkbox
+                  checked={avvAccepted}
+                  onCheckedChange={(v) => setAvvAccepted(v === true)}
+                  id="avv"
+                  required
+                />
+                <span>
+                  Ich habe den{" "}
+                  <a
+                    href="/avv"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline text-primary"
+                  >
+                    Auftragsverarbeitungsvertrag
+                  </a>{" "}
+                  gelesen und stimme ihm zu.
+                </span>
+              </label>
+            )}
+            <Button
+              type="submit"
+              disabled={loading || (mode === "signup" && !avvAccepted)}
+              className="w-full h-11 rounded-full"
+            >
               {loading ? "Moment …" : mode === "signin" ? "Anmelden" : "Konto erstellen"}
             </Button>
+
           </form>
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
@@ -158,6 +201,10 @@ function AuthPage() {
         <p className="text-center text-xs text-muted-foreground mt-6">
           Deine Daten bleiben deine Daten. DSGVO-konform gespeichert.
         </p>
+        <p className="text-center text-xs text-muted-foreground mt-3">
+          <a href="/avv" className="hover:text-foreground underline">Auftragsverarbeitungsvertrag</a>
+        </p>
+
       </div>
     </div>
   );

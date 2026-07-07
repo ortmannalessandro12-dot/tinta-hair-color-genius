@@ -22,9 +22,24 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
     const { data: sub } = await supabaseAdmin
       .from("subscriptions")
-      .select("stripe_customer_id")
+      .select("stripe_customer_id, status, trial_ends_at")
       .eq("user_id", userId)
       .maybeSingle();
+
+    // Doppel-Abo verhindern: aktives Abo → 409
+    if (sub?.status === "active") {
+      return { error: "already_subscribed" as const };
+    }
+    // Trialing zählt als bereits abonniert nur, wenn bereits eine Stripe-Subscription existiert
+    // (Trial über Datenbank-Trigger hat keine stripe_subscription_id → Checkout weiter erlaubt).
+    const { data: subFull } = await supabaseAdmin
+      .from("subscriptions")
+      .select("stripe_subscription_id, status")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (subFull?.status === "trialing" && subFull?.stripe_subscription_id) {
+      return { error: "already_subscribed" as const };
+    }
 
     let customerId = sub?.stripe_customer_id ?? undefined;
     if (!customerId) {
@@ -38,6 +53,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         .update({ stripe_customer_id: customerId })
         .eq("user_id", userId);
     }
+
 
     const origin = getOrigin();
     const session = await stripe.checkout.sessions.create({

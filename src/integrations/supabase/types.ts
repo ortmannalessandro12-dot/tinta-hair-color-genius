@@ -41,6 +41,27 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avv_accepted_at: string | null
+          created_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avv_accepted_at?: string | null
+          created_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avv_accepted_at?: string | null
+          created_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       recipe_components: {
         Row: {
           brand: string

@@ -18,11 +18,13 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [avvAccepted, setAvvAccepted] = useState(false);
   const [remember, setRemember] = useState(() => {
     if (typeof window === "undefined") return true;
     return localStorage.getItem("tinta-remember") !== "false";
   });
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {

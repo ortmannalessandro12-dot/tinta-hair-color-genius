@@ -107,7 +107,7 @@ function SubscribePage() {
             <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
               Status
             </div>
-            <div className="font-serif text-2xl mb-2">Tinta Pro — Aktiv</div>
+            <div className="font-serif text-2xl mb-2">Du hast Tinta Pro</div>
             {inTrial && (
               <p className="text-sm text-muted-foreground mb-1">
                 Testphase noch{" "}
@@ -131,11 +131,18 @@ function SubscribePage() {
               {portalLoading ? "Wird geöffnet …" : "Abo verwalten"}
             </button>
             <Link
+              to="/account/billing"
+              className="mt-3 block text-center text-sm text-primary hover:opacity-80"
+            >
+              Zur Abo-Übersicht
+            </Link>
+            <Link
               to="/clients"
-              className="mt-3 block text-center text-sm text-muted-foreground hover:text-foreground"
+              className="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground"
             >
               Zurück zu deinen Kundinnen
             </Link>
+
           </div>
         ) : (
           <>

@@ -180,11 +180,17 @@ function SubscribePage() {
                 disabled={submitting}
                 className="w-full h-12 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition disabled:opacity-50"
               >
-                {submitting ? "Wird geöffnet …" : inTrial ? "Jetzt abonnieren" : "Abo starten"}
+                {submitting ? "Wird geöffnet …" : "Jetzt abonnieren"}
               </button>
+              {error && (
+                <p className="text-xs text-destructive text-center mt-3" role="alert">
+                  {error}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground text-center mt-3">
-                Zahlung über Stripe. Du kannst jederzeit kündigen.
+                7 Tage kostenlos testen. Zahlung über Stripe, jederzeit kündbar.
               </p>
+
             </div>
           </>
         )}

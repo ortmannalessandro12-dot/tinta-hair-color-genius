@@ -62,17 +62,26 @@ function SubscribePage() {
     }
   }
 
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (new URLSearchParams(window.location.search).get("checkout") === "cancel") {
+      toast.info("Checkout abgebrochen. Du kannst jederzeit erneut starten.");
+      window.history.replaceState({}, "", "/subscribe");
+    }
+  }, []);
+
   const features = [
-    "Unbegrenzte Kundinnen",
-    "Unbegrenzte Farbrezepturen",
+    "Farbrezepte unbegrenzt verwalten",
+    "Für das ganze Salon-Team",
     "Foto vom Ergebnis pro Rezeptur",
     "Sichere Cloud-Synchronisation",
-    "Auf iPhone & iPad installierbar",
+    "Jederzeit kündbar",
   ];
 
   // Bereits aktives (echtes) Abo → Status anzeigen statt Checkout
   const hasPaidSubscription =
     isActive || (subscription?.status === "trialing" && !!subscription?.stripe_subscription_id);
+
 
   return (
     <AppShell>

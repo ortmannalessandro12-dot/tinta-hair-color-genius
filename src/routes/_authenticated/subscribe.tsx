@@ -24,7 +24,9 @@ function SubscribePage() {
 
 
   async function onSubscribe() {
+    if (submitting) return;
     setSubmitting(true);
+    setError(null);
     try {
       const res = await startCheckout();
       if ("error" in res && res.error === "already_subscribed") {
@@ -40,10 +42,12 @@ function SubscribePage() {
       throw new Error("Keine Checkout-URL erhalten.");
     } catch (e) {
       console.error("[checkout]", e);
+      setError("Der Checkout konnte nicht gestartet werden. Bitte versuche es erneut.");
       toast.error("Checkout konnte nicht gestartet werden.");
       setSubmitting(false);
     }
   }
+
 
   async function onPortal() {
     setPortalLoading(true);

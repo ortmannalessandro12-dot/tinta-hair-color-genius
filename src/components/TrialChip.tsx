@@ -1,24 +1,34 @@
 import { Link } from "@tanstack/react-router";
-import { Check, Sparkles } from "lucide-react";
+import { AlertCircle, Check, Sparkles } from "lucide-react";
 import { useSubscription } from "@/hooks/useSubscription";
 
 export function TrialChip() {
-  const { subscription, loading, inTrial, isActive, trialDaysLeft } = useSubscription();
-  if (loading || !subscription) return null;
+  const { status, loading, inTrial, trialDaysLeft } = useSubscription();
+
+  // Ruhiger Platzhalter – gleiche Höhe/Breite, kein Layout-Sprung
+  if (loading) {
+    return <span className="inline-block h-7 w-24 rounded-full bg-secondary/50 animate-pulse" />;
+  }
 
   let label = "Test beendet";
   let icon = <Sparkles className="h-3 w-3" />;
-  let tone =
-    "bg-secondary/70 text-foreground/70 hover:bg-secondary";
+  let tone = "bg-secondary/70 text-foreground/70 hover:bg-secondary";
 
-  if (isActive) {
+  if (status === "active") {
     label = "Tinta Pro";
     icon = <Check className="h-3 w-3" />;
     tone = "bg-primary/15 text-primary hover:bg-primary/25";
+  } else if (status === "past_due") {
+    label = "Zahlung fehlgeschlagen";
+    icon = <AlertCircle className="h-3 w-3" />;
+    tone = "bg-destructive/10 text-destructive hover:bg-destructive/20";
   } else if (inTrial) {
     label = `Test – noch ${trialDaysLeft} ${trialDaysLeft === 1 ? "Tag" : "Tage"}`;
     icon = <Sparkles className="h-3 w-3" />;
-    tone = "bg-primary/10 text-primary hover:bg-primary/20";
+    tone =
+      trialDaysLeft <= 2
+        ? "bg-[oklch(0.92_0.06_65)] text-[oklch(0.45_0.12_55)] hover:opacity-90"
+        : "bg-secondary/70 text-foreground/70 hover:bg-secondary";
   }
 
   return (

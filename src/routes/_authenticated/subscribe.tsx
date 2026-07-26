@@ -13,14 +13,20 @@ export const Route = createFileRoute("/_authenticated/subscribe")({
 });
 
 function SubscribePage() {
-  const { subscription, inTrial, isActive, trialDaysLeft, loading, refetch } = useSubscription();
+  const { subscription, status, inTrial, isPro, trialDaysLeft, loading, refetch } =
+    useSubscription();
+  const isActive = isPro;
   const startCheckout = useServerFn(createCheckoutSession);
   const openPortal = useServerFn(createPortalSession);
   const [submitting, setSubmitting] = React.useState(false);
   const [portalLoading, setPortalLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
 
   async function onSubscribe() {
+    if (submitting) return;
     setSubmitting(true);
+    setError(null);
     try {
       const res = await startCheckout();
       if ("error" in res && res.error === "already_subscribed") {
@@ -36,10 +42,12 @@ function SubscribePage() {
       throw new Error("Keine Checkout-URL erhalten.");
     } catch (e) {
       console.error("[checkout]", e);
+      setError("Der Checkout konnte nicht gestartet werden. Bitte versuche es erneut.");
       toast.error("Checkout konnte nicht gestartet werden.");
       setSubmitting(false);
     }
   }
+
 
   async function onPortal() {
     setPortalLoading(true);
@@ -54,17 +62,26 @@ function SubscribePage() {
     }
   }
 
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (new URLSearchParams(window.location.search).get("checkout") === "cancel") {
+      toast.info("Checkout abgebrochen. Du kannst jederzeit erneut starten.");
+      window.history.replaceState({}, "", "/subscribe");
+    }
+  }, []);
+
   const features = [
-    "Unbegrenzte Kundinnen",
-    "Unbegrenzte Farbrezepturen",
+    "Farbrezepte unbegrenzt verwalten",
+    "Für das ganze Salon-Team",
     "Foto vom Ergebnis pro Rezeptur",
     "Sichere Cloud-Synchronisation",
-    "Auf iPhone & iPad installierbar",
+    "Jederzeit kündbar",
   ];
 
   // Bereits aktives (echtes) Abo → Status anzeigen statt Checkout
   const hasPaidSubscription =
     isActive || (subscription?.status === "trialing" && !!subscription?.stripe_subscription_id);
+
 
   return (
     <AppShell>
@@ -90,7 +107,7 @@ function SubscribePage() {
             <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
               Status
             </div>
-            <div className="font-serif text-2xl mb-2">Tinta Pro — Aktiv</div>
+            <div className="font-serif text-2xl mb-2">Du hast Tinta Pro</div>
             {inTrial && (
               <p className="text-sm text-muted-foreground mb-1">
                 Testphase noch{" "}
@@ -114,11 +131,18 @@ function SubscribePage() {
               {portalLoading ? "Wird geöffnet …" : "Abo verwalten"}
             </button>
             <Link
+              to="/account/billing"
+              className="mt-3 block text-center text-sm text-primary hover:opacity-80"
+            >
+              Zur Abo-Übersicht
+            </Link>
+            <Link
               to="/clients"
-              className="mt-3 block text-center text-sm text-muted-foreground hover:text-foreground"
+              className="mt-2 block text-center text-sm text-muted-foreground hover:text-foreground"
             >
               Zurück zu deinen Kundinnen
             </Link>
+
           </div>
         ) : (
           <>
@@ -156,11 +180,17 @@ function SubscribePage() {
                 disabled={submitting}
                 className="w-full h-12 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition disabled:opacity-50"
               >
-                {submitting ? "Wird geöffnet …" : inTrial ? "Jetzt abonnieren" : "Abo starten"}
+                {submitting ? "Wird geöffnet …" : "Jetzt abonnieren"}
               </button>
+              {error && (
+                <p className="text-xs text-destructive text-center mt-3" role="alert">
+                  {error}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground text-center mt-3">
-                Zahlung über Stripe. Du kannst jederzeit kündigen.
+                7 Tage kostenlos testen. Zahlung über Stripe, jederzeit kündbar.
               </p>
+
             </div>
           </>
         )}

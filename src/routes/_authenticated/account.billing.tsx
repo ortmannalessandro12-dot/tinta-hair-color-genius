@@ -19,9 +19,23 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 function BillingPage() {
-  const { subscription, loading, inTrial, isActive, trialDaysLeft, hasAccess } = useSubscription();
+  const { subscription, loading, inTrial, isActive, trialDaysLeft, hasAccess, refetch } =
+    useSubscription();
   const openPortal = useServerFn(createPortalSession);
   const [submitting, setSubmitting] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (new URLSearchParams(window.location.search).get("checkout") === "success") {
+      toast.success("Danke! Dein Tinta Pro Abo ist aktiv.");
+      window.history.replaceState({}, "", "/account/billing");
+      // Webhook braucht evtl. einen Moment
+      void refetch();
+      const t = setTimeout(() => void refetch(), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [refetch]);
+
 
   async function onPortal() {
     setSubmitting(true);

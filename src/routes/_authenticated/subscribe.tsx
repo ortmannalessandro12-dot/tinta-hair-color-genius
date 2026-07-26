@@ -13,11 +13,15 @@ export const Route = createFileRoute("/_authenticated/subscribe")({
 });
 
 function SubscribePage() {
-  const { subscription, inTrial, isActive, trialDaysLeft, loading, refetch } = useSubscription();
+  const { subscription, status, inTrial, isPro, trialDaysLeft, loading, refetch } =
+    useSubscription();
+  const isActive = isPro;
   const startCheckout = useServerFn(createCheckoutSession);
   const openPortal = useServerFn(createPortalSession);
   const [submitting, setSubmitting] = React.useState(false);
   const [portalLoading, setPortalLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
 
   async function onSubscribe() {
     setSubmitting(true);

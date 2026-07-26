@@ -39,10 +39,17 @@ export function AppShell({
           {title && <h1 className="font-serif text-lg flex-1 truncate">{title}</h1>}
           <div className="ml-auto flex items-center gap-2">
             <TrialChip />
+            <Link
+              to="/subscribe"
+              className="hidden sm:inline-flex h-7 items-center px-2.5 rounded-full text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition"
+            >
+              Pro
+            </Link>
             {right}
           </div>
         </div>
       </header>
+
       <main className="mx-auto max-w-2xl px-5 pt-6">{children}</main>
       <footer className="mx-auto max-w-2xl px-5 pt-10 pb-6 text-center text-xs text-muted-foreground">
         <Link to="/avv" className="hover:text-foreground">Auftragsverarbeitungsvertrag</Link>

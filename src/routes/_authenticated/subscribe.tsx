@@ -84,9 +84,21 @@ function SubscribePage() {
 
 
   return (
-    <AppShell>
+    <AppShell
+      right={
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Schließen"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      }
+    >
       <div className="max-w-md mx-auto">
         <div className="text-center mb-6">
+
           <div className="inline-flex items-center gap-1.5 px-3 h-7 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
             <Sparkles className="h-3.5 w-3.5" /> Tinta Pro
           </div>

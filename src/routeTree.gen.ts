@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as AvvRouteImport } from './routes/avv'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -23,6 +24,11 @@ import { Route as AuthenticatedClientsClientIdIndexRouteImport } from './routes/
 import { Route as AuthenticatedClientsClientIdRecipesNewRouteImport } from './routes/_authenticated/clients.$clientId.recipes.new'
 import { Route as AuthenticatedClientsClientIdRecipesRecipeIdRouteImport } from './routes/_authenticated/clients.$clientId.recipes.$recipeId'
 
+const ImpressumRoute = ImpressumRouteImport.update({
+  id: '/impressum',
+  path: '/impressum',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvvRoute = AvvRouteImport.update({
   id: '/avv',
   path: '/avv',
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/avv': typeof AvvRoute
+  '/impressum': typeof ImpressumRoute
   '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/avv': typeof AvvRoute
+  '/impressum': typeof ImpressumRoute
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/avv': typeof AvvRoute
+  '/impressum': typeof ImpressumRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/subscribe': typeof AuthenticatedSubscribeRoute
   '/_authenticated/account/billing': typeof AuthenticatedAccountBillingRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/avv'
+    | '/impressum'
     | '/clients'
     | '/subscribe'
     | '/account/billing'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/avv'
+    | '/impressum'
     | '/subscribe'
     | '/account/billing'
     | '/clients/new'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/avv'
+    | '/impressum'
     | '/_authenticated/clients'
     | '/_authenticated/subscribe'
     | '/_authenticated/account/billing'
@@ -186,11 +198,19 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   AvvRoute: typeof AvvRoute
+  ImpressumRoute: typeof ImpressumRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/impressum': {
+      id: '/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/avv': {
       id: '/avv'
       path: '/avv'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   AvvRoute: AvvRoute,
+  ImpressumRoute: ImpressumRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
 }
 export const routeTree = rootRouteImport

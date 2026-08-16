@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BRANDS, BRAND_SHADES, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
+import { BRANDS, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
 
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";

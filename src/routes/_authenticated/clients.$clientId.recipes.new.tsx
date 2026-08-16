@@ -73,7 +73,11 @@ function NewRecipe() {
   }
 
   async function save() {
-    if (!components.every((c) => c.brand && c.shade && c.grams)) {
+    const shadeOk = (c: Component) =>
+      c.shade_mode === "custom"
+        ? c.shade_custom.trim().length > 0
+        : !!c.shade && (c.shade !== "Andere…" || c.shade_custom.trim().length > 0);
+    if (!components.every((c) => c.brand && shadeOk(c) && c.grams)) {
       toast.error("Bitte Marke, Ton und Gramm bei jeder Komponente angeben.");
       return;
     }
@@ -93,8 +97,10 @@ function NewRecipe() {
         position: i,
         brand: c.brand,
         brand_custom: c.brand === "Andere…" ? c.brand_custom || null : null,
-        shade: c.shade,
-        shade_custom: c.shade === "Andere…" ? c.shade_custom || null : null,
+        shade: c.shade_mode === "custom" ? "Andere…" : c.shade,
+        shade_custom:
+          c.shade_mode === "custom" || c.shade === "Andere…" ? c.shade_custom.trim() || null : null,
+
         correction: c.correction === "Keine" ? null : c.correction,
         grams: parseFloat(c.grams) || 0,
         developer: c.developer || null,

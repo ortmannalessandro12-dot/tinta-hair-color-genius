@@ -31,6 +31,7 @@ type Component = {
   brand_custom: string;
   shade: string;
   shade_custom: string;
+  shade_mode: "select" | "custom";
   correction: string;
   grams: string;
   developer: string;
@@ -44,12 +45,14 @@ function blank(): Component {
     brand_custom: "",
     shade: "",
     shade_custom: "",
+    shade_mode: "select",
     correction: "Keine",
     grams: "",
     developer: "",
     time_minutes: "",
   };
 }
+
 
 function NewRecipe() {
   const { clientId } = Route.useParams();

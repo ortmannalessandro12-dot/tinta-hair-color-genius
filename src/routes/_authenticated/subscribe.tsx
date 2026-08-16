@@ -22,6 +22,24 @@ function SubscribePage() {
   const [submitting, setSubmitting] = React.useState(false);
   const [portalLoading, setPortalLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+  const navigate = useNavigate();
+
+  const onClose = React.useCallback(() => {
+    const canGoBack =
+      typeof window !== "undefined" && window.history.length > 1 && router.history.canGoBack();
+    if (canGoBack) router.history.back();
+    else navigate({ to: "/clients" });
+  }, [router, navigate]);
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
 
 
   async function onSubscribe() {

@@ -187,22 +187,53 @@ function NewRecipe() {
                 )}
 
                 <Field label="Ton / Nuance">
-                  <Pick
-                    value={c.shade}
-                    onChange={(v) => update(c.id, { shade: v, shade_custom: "" })}
-                    options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
-                    placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
-                  />
+                  <div className="flex gap-2 mb-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        update(c.id, { shade_mode: "select", shade_custom: "" })
+                      }
+                      className={`chip ${c.shade_mode === "select" ? "chip-active" : ""}`}
+                    >
+                      Auswählen
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => update(c.id, { shade_mode: "custom", shade: "" })}
+                      className={`chip ${c.shade_mode === "custom" ? "chip-active" : ""}`}
+                    >
+                      Selbst eingeben
+                    </button>
+                  </div>
+
+                  {c.shade_mode === "select" ? (
+                    <Pick
+                      value={c.shade}
+                      onChange={(v) =>
+                        update(c.id, { shade: v, shade_custom: v === "Andere…" ? c.shade_custom : "" })
+                      }
+                      options={
+                        c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]
+                      }
+                      placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
+                    />
+                  ) : (
+                    <Input
+                      placeholder="z. B. 7.43 Kupfer-Gold"
+                      value={c.shade_custom}
+                      onChange={(e) => update(c.id, { shade_custom: e.target.value })}
+                    />
+                  )}
                 </Field>
 
-
-                {c.shade === "Andere…" && (
+                {c.shade_mode === "select" && c.shade === "Andere…" && (
                   <Input
                     placeholder="Ton eingeben"
                     value={c.shade_custom}
                     onChange={(e) => update(c.id, { shade_custom: e.target.value })}
                   />
                 )}
+
 
                 <Field label="Abmattierung / Korrektur">
                   <Pick

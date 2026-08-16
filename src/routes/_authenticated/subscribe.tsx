@@ -1,12 +1,13 @@
 import * as React from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useSubscription } from "@/hooks/useSubscription";
 import { createCheckoutSession, createPortalSession } from "@/lib/billing.functions";
 import { formatDateDE } from "@/lib/tinta";
 import { toast } from "sonner";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, X } from "lucide-react";
+
 
 export const Route = createFileRoute("/_authenticated/subscribe")({
   component: SubscribePage,

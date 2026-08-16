@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BRANDS, BRAND_SHADES, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
+import { BRANDS, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
 
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -31,6 +31,7 @@ type Component = {
   brand_custom: string;
   shade: string;
   shade_custom: string;
+  shade_mode: "select" | "custom";
   correction: string;
   grams: string;
   developer: string;
@@ -44,12 +45,14 @@ function blank(): Component {
     brand_custom: "",
     shade: "",
     shade_custom: "",
+    shade_mode: "select",
     correction: "Keine",
     grams: "",
     developer: "",
     time_minutes: "",
   };
 }
+
 
 function NewRecipe() {
   const { clientId } = Route.useParams();
@@ -70,7 +73,11 @@ function NewRecipe() {
   }
 
   async function save() {
-    if (!components.every((c) => c.brand && c.shade && c.grams)) {
+    const shadeOk = (c: Component) =>
+      c.shade_mode === "custom"
+        ? c.shade_custom.trim().length > 0
+        : !!c.shade && (c.shade !== "Andere…" || c.shade_custom.trim().length > 0);
+    if (!components.every((c) => c.brand && shadeOk(c) && c.grams)) {
       toast.error("Bitte Marke, Ton und Gramm bei jeder Komponente angeben.");
       return;
     }
@@ -90,8 +97,10 @@ function NewRecipe() {
         position: i,
         brand: c.brand,
         brand_custom: c.brand === "Andere…" ? c.brand_custom || null : null,
-        shade: c.shade,
-        shade_custom: c.shade === "Andere…" ? c.shade_custom || null : null,
+        shade: c.shade_mode === "custom" ? "Andere…" : c.shade,
+        shade_custom:
+          c.shade_mode === "custom" || c.shade === "Andere…" ? c.shade_custom.trim() || null : null,
+
         correction: c.correction === "Keine" ? null : c.correction,
         grams: parseFloat(c.grams) || 0,
         developer: c.developer || null,
@@ -184,22 +193,53 @@ function NewRecipe() {
                 )}
 
                 <Field label="Ton / Nuance">
-                  <Pick
-                    value={c.shade}
-                    onChange={(v) => update(c.id, { shade: v, shade_custom: "" })}
-                    options={c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]}
-                    placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
-                  />
+                  <div className="flex gap-2 mb-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        update(c.id, { shade_mode: "select", shade_custom: "" })
+                      }
+                      className={`chip ${c.shade_mode === "select" ? "chip-active" : ""}`}
+                    >
+                      Auswählen
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => update(c.id, { shade_mode: "custom", shade: "" })}
+                      className={`chip ${c.shade_mode === "custom" ? "chip-active" : ""}`}
+                    >
+                      Selbst eingeben
+                    </button>
+                  </div>
+
+                  {c.shade_mode === "select" ? (
+                    <Pick
+                      value={c.shade}
+                      onChange={(v) =>
+                        update(c.id, { shade: v, shade_custom: v === "Andere…" ? c.shade_custom : "" })
+                      }
+                      options={
+                        c.brand && c.brand !== "Andere…" ? getShadesForBrand(c.brand) : ["Andere…"]
+                      }
+                      placeholder={c.brand ? "Wählen …" : "Erst Marke wählen"}
+                    />
+                  ) : (
+                    <Input
+                      placeholder="z. B. 7.43 Kupfer-Gold"
+                      value={c.shade_custom}
+                      onChange={(e) => update(c.id, { shade_custom: e.target.value })}
+                    />
+                  )}
                 </Field>
 
-
-                {c.shade === "Andere…" && (
+                {c.shade_mode === "select" && c.shade === "Andere…" && (
                   <Input
                     placeholder="Ton eingeben"
                     value={c.shade_custom}
                     onChange={(e) => update(c.id, { shade_custom: e.target.value })}
                   />
                 )}
+
 
                 <Field label="Abmattierung / Korrektur">
                   <Pick

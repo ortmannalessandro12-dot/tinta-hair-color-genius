@@ -1,12 +1,13 @@
 import * as React from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useSubscription } from "@/hooks/useSubscription";
 import { createCheckoutSession, createPortalSession } from "@/lib/billing.functions";
 import { formatDateDE } from "@/lib/tinta";
 import { toast } from "sonner";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, X } from "lucide-react";
+
 
 export const Route = createFileRoute("/_authenticated/subscribe")({
   component: SubscribePage,
@@ -21,6 +22,24 @@ function SubscribePage() {
   const [submitting, setSubmitting] = React.useState(false);
   const [portalLoading, setPortalLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+  const navigate = useNavigate();
+
+  const onClose = React.useCallback(() => {
+    const canGoBack =
+      typeof window !== "undefined" && window.history.length > 1 && router.history.canGoBack();
+    if (canGoBack) router.history.back();
+    else navigate({ to: "/clients" });
+  }, [router, navigate]);
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
 
 
   async function onSubscribe() {
@@ -84,9 +103,21 @@ function SubscribePage() {
 
 
   return (
-    <AppShell>
+    <AppShell
+      right={
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Schließen"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      }
+    >
       <div className="max-w-md mx-auto">
         <div className="text-center mb-6">
+
           <div className="inline-flex items-center gap-1.5 px-3 h-7 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
             <Sparkles className="h-3.5 w-3.5" /> Tinta Pro
           </div>

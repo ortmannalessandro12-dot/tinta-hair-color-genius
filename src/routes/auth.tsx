@@ -201,9 +201,8 @@ function AuthPage() {
         <p className="text-center text-xs text-muted-foreground mt-6">
           Deine Daten bleiben deine Daten. DSGVO-konform gespeichert.
         </p>
-        <p className="text-center text-xs text-muted-foreground mt-3">
-          <a href="/avv" className="hover:text-foreground underline">Auftragsverarbeitungsvertrag</a>
-        </p>
+        <LegalFooter className="mt-3" />
+
 
       </div>
     </div>

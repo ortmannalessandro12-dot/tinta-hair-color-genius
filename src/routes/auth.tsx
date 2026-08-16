@@ -1,3 +1,4 @@
+import { LegalFooter } from "@/components/LegalFooter";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { useEffect, useState } from "react";

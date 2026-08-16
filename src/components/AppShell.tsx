@@ -4,6 +4,8 @@ import { ChevronLeft } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { TrialChip } from "./TrialChip";
 import { AvvGate } from "./AvvGate";
+import { LegalFooter } from "./LegalFooter";
+
 
 
 

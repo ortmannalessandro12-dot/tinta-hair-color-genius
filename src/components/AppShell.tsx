@@ -51,9 +51,10 @@ export function AppShell({
       </header>
 
       <main className="mx-auto max-w-2xl px-5 pt-6">{children}</main>
-      <footer className="mx-auto max-w-2xl px-5 pt-10 pb-6 text-center text-xs text-muted-foreground">
-        <Link to="/avv" className="hover:text-foreground">Auftragsverarbeitungsvertrag</Link>
+      <footer className="mx-auto max-w-2xl px-5 pt-10 pb-6">
+        <LegalFooter />
       </footer>
+
       <PWAInstallPrompt />
       <AvvGate />
     </div>

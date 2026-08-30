@@ -103,6 +103,10 @@ function RecipeDetail() {
         </div>
       )}
 
+      <div className="mt-3">
+        <RecipePhotos recipeId={recipeId} />
+      </div>
+
       <div className="mt-10 pt-6 border-t border-border/60">
         <AlertDialog>
           <AlertDialogTrigger asChild>

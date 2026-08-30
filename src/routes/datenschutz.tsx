@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { TODO_EMAIL } from "@/lib/legal";
 
 export const Route = createFileRoute("/datenschutz")({
   head: () => ({
@@ -35,137 +36,163 @@ function DatenschutzPage() {
 
       <main className="mx-auto max-w-3xl px-5 py-10 text-[16px] leading-relaxed">
         <h1 className="font-serif text-3xl md:text-4xl mb-2">Datenschutzerklärung</h1>
-        <p className="text-sm text-muted-foreground mb-8">
-          Informationen nach Art. 13 und 14 DSGVO
-        </p>
 
-        <section className="space-y-8">
+        <section className="space-y-8 mt-8">
           <div>
             <h2 className="font-serif text-xl mb-2">1. Verantwortlicher</h2>
             <p>
-              [VOLLSTÄNDIGER NAME]
+              Alessandro Ortmann, Meidelstetter Straße 12, 72829 Engstingen, Deutschland.
               <br />
-              [STRASSE UND HAUSNUMMER]
-              <br />
-              [PLZ UND ORT]
-              <br />
-              E-Mail: [E-MAIL-ADRESSE]
-              <br />
-              Telefon: [TELEFONNUMMER]
-            </p>
-            <p className="mt-2 text-muted-foreground">
-              Datenschutzbeauftragte:r (falls benannt): [NAME UND KONTAKT ODER „nicht
-              erforderlich"]
+              E-Mail: {TODO_EMAIL}
             </p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">2. Welche Daten wir verarbeiten</h2>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>
-                <strong>Account-Daten:</strong> E-Mail-Adresse, verschlüsseltes Passwort
-                bzw. Login über Google/Apple, Zeitpunkt der Registrierung und der letzten
-                Anmeldung, Zustimmung zum Auftragsverarbeitungsvertrag.
-              </li>
-              <li>
-                <strong>Kundendaten der Salons:</strong> Name und optionale Notizen zu
-                Kundinnen und Kunden, die der Salon selbst erfasst.
-              </li>
-              <li>
-                <strong>Rezeptdaten:</strong> Marken, Nuancen, Mengen, Oxidant,
-                Einwirkzeiten, Notizen sowie optionale Fotos des Ergebnisses.
-              </li>
-              <li>
-                <strong>Abo- und Zahlungsdaten:</strong> Abo-Status, Trial-Ende,
-                Kunden- und Abo-Kennung von Stripe. Kreditkartendaten werden
-                ausschließlich von Stripe verarbeitet und erreichen uns nie.
-              </li>
-              <li>
-                <strong>Technische Daten:</strong> Server-Logdaten wie IP-Adresse,
-                Zeitpunkt und Fehlermeldungen zur Absicherung und Fehleranalyse.
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-serif text-xl mb-2">3. Zweck und Rechtsgrundlage</h2>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>
-                Bereitstellung von Login, Speicherung und Anzeige der Rezepturen:
-                Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).
-              </li>
-              <li>
-                Zahlungsabwicklung und Abo-Verwaltung: Art. 6 Abs. 1 lit. b DSGVO.
-              </li>
-              <li>
-                Betrieb, Sicherheit und Fehleranalyse: Art. 6 Abs. 1 lit. f DSGVO
-                (berechtigtes Interesse an einem stabilen, sicheren Dienst).
-              </li>
-              <li>
-                Gesetzliche Aufbewahrungspflichten für Rechnungen: Art. 6 Abs. 1 lit. c
-                DSGVO.
-              </li>
-            </ul>
-            <p className="mt-2">
-              Für die von Salons eingegebenen Kundendaten ist der jeweilige Salon
-              Verantwortlicher; wir verarbeiten diese Daten als Auftragsverarbeiter auf
-              Grundlage des{" "}
-              <Link to="/avv" className="text-primary hover:opacity-80">
-                Auftragsverarbeitungsvertrags
-              </Link>
-              .
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-serif text-xl mb-2">4. Eingesetzte Dienstleister</h2>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>
-                <strong>Supabase</strong> — Hosting von Datenbank, Authentifizierung und
-                Dateispeicher. Serverstandort EU. Auftragsverarbeiter nach Art. 28 DSGVO.
-              </li>
-              <li>
-                <strong>Stripe</strong> — Zahlungsabwicklung und Abo-Verwaltung.
-                Übermittelt werden E-Mail-Adresse und Zahlungsdaten; die Zahlungsdaten
-                werden direkt bei Stripe eingegeben. Stripe Payments Europe Ltd., Irland.
-              </li>
-              <li>
-                <strong>[WEITERER DIENSTLEISTER, FALLS GENUTZT]</strong> — [ZWECK].
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-serif text-xl mb-2">5. Speicherdauer</h2>
+            <h2 className="font-serif text-xl mb-2">2. Allgemeines</h2>
             <p>
-              Account-, Kundinnen- und Rezeptdaten werden gespeichert, solange dein Konto
-              besteht. Nach Löschung des Kontos werden sie innerhalb von 30 Tagen
-              endgültig gelöscht. Rechnungs- und steuerrelevante Daten bewahren wir
-              gemäß gesetzlicher Fristen bis zu 10 Jahre auf. Server-Logs werden
-              spätestens nach [ANZAHL] Tagen gelöscht.
+              Tinta ist eine Webanwendung zur Verwaltung von Farbrezepturen für Friseursalons. Diese
+              Erklärung informiert über die Verarbeitung personenbezogener Daten bei der Nutzung von
+              Tinta.
             </p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">6. Deine Rechte</h2>
+            <h2 className="font-serif text-xl mb-2">3. Zwei Arten von Daten</h2>
             <p>
-              Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung
-              (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit
-              (Art. 20) sowie Widerspruch gegen Verarbeitungen auf Grundlage
-              berechtigter Interessen (Art. 21 DSGVO). Erteilte Einwilligungen kannst du
-              jederzeit mit Wirkung für die Zukunft widerrufen.
-            </p>
-            <p className="mt-2">
-              Außerdem besteht ein Beschwerderecht bei einer Aufsichtsbehörde,
-              zuständig ist: [ZUSTÄNDIGE AUFSICHTSBEHÖRDE].
+              Diese Erklärung betrifft die Daten der Nutzerinnen und Nutzer von Tinta (Saloninhaber
+              und Mitarbeitende). Für die Daten der Salonkundschaft, die Nutzer in Tinta speichern,
+              ist der jeweilige Salon selbst datenschutzrechtlich verantwortlich. Tinta verarbeitet
+              diese Daten ausschließlich weisungsgebunden im Auftrag des Salons (Art. 28 DSGVO).
             </p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">7. Kontakt</h2>
+            <h2 className="font-serif text-xl mb-2">4. Daten bei Registrierung und Nutzung</h2>
             <p>
-              Für alle Fragen zum Datenschutz erreichst du uns unter
-              [E-MAIL-ADRESSE] oder postalisch unter der oben genannten Anschrift.
+              Bei der Erstellung eines Kontos werden E-Mail-Adresse und ein verschlüsseltes Passwort
+              verarbeitet. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Zweck:
+              Bereitstellung des Nutzerkontos und der Anwendung.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">5. Inhaltsdaten</h2>
+            <p>
+              Nutzer speichern in Tinta Kundendaten, Farbrezepturen, Behandlungsnotizen und ggf.
+              Fotos. Diese Daten werden ausschließlich zur Bereitstellung der Anwendung verarbeitet
+              und nicht zu eigenen Zwecken ausgewertet, verkauft oder an Dritte weitergegeben.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">
+              6. Besondere Kategorien personenbezogener Daten
+            </h2>
+            <p>
+              Nutzer können Angaben zu Allergien oder Unverträglichkeiten der Salonkundschaft
+              erfassen. Dabei handelt es sich um Gesundheitsdaten im Sinne von Art. 9 DSGVO. Für die
+              Rechtmäßigkeit dieser Erfassung ist der jeweilige Salon verantwortlich; er hat vor der
+              Erfassung eine ausdrückliche Einwilligung der betroffenen Person einzuholen (Art. 9
+              Abs. 2 lit. a DSGVO). Tinta verarbeitet diese Daten ausschließlich im Auftrag und
+              speichert sie verschlüsselt.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">7. Server-Logfiles</h2>
+            <p>
+              Beim Aufruf der Anwendung werden technisch notwendige Zugriffsdaten erhoben
+              (IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browsertyp, Betriebssystem,
+              Referrer). Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
+              Betriebssicherheit und Fehleranalyse).
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">
+              8. Eingesetzte Dienstleister (Auftragsverarbeiter)
+            </h2>
+            <p>
+              <strong>Hosting und Datenbank:</strong> Supabase, Serverstandort Irland (EU).
+              Sämtliche Nutzer- und Inhaltsdaten werden auf Servern innerhalb der Europäischen Union
+              gespeichert. Es besteht ein Auftragsverarbeitungsvertrag.
+            </p>
+            <p className="mt-3">
+              <strong>Anwendungs-Hosting:</strong> Lovable — Bereitstellung und Auslieferung der
+              Weboberfläche.
+            </p>
+            <p className="mt-3">
+              <strong>Zahlungsabwicklung:</strong> Stripe Payments Europe Ltd., Dublin, Irland. Bei
+              Abschluss eines kostenpflichtigen Abonnements werden Zahlungs- und Rechnungsdaten an
+              Stripe übermittelt. Zahlungsdaten wie Kreditkartennummern werden ausschließlich von
+              Stripe verarbeitet und sind für den Verantwortlichen nicht einsehbar. Eine
+              Übermittlung in die USA kann stattfinden und erfolgt auf Grundlage geeigneter
+              Garantien. Datenschutzhinweise:{" "}
+              <a
+                href="https://stripe.com/de/privacy"
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary hover:opacity-80 underline"
+              >
+                https://stripe.com/de/privacy
+              </a>
+              . Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">9. Cookies und lokale Speicherung</h2>
+            <p>
+              Tinta setzt ausschließlich technisch notwendige Cookies bzw. lokale
+              Speichertechnologien ein, insbesondere zur Aufrechterhaltung der Anmeldesitzung. Es
+              findet kein Tracking und keine Analyse des Nutzerverhaltens statt. Es werden keine
+              Werbe- oder Analysedienste eingesetzt.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">10. Speicherdauer</h2>
+            <p>
+              Nutzerdaten werden für die Dauer des Vertragsverhältnisses gespeichert. Nach Kündigung
+              werden Konto und Inhaltsdaten innerhalb von 30 Tagen gelöscht, sofern keine
+              gesetzlichen Aufbewahrungspflichten entgegenstehen. Rechnungs- und Buchhaltungsdaten
+              werden entsprechend den handels- und steuerrechtlichen Fristen aufbewahrt.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">11. Rechte der betroffenen Personen</h2>
+            <p>
+              Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung
+              (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20)
+              sowie Widerspruch (Art. 21 DSGVO). Erteilte Einwilligungen können jederzeit mit
+              Wirkung für die Zukunft widerrufen werden. Zur Ausübung genügt eine Nachricht an:{" "}
+              {TODO_EMAIL}
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">12. Beschwerderecht</h2>
+            <p>
+              Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.
+              Zuständig ist: Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit
+              Baden-Württemberg, Lautenschlagerstraße 20, 70173 Stuttgart.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">13. Datensicherheit</h2>
+            <p>
+              Die Übertragung erfolgt verschlüsselt über TLS. Der Zugriff auf Inhaltsdaten ist durch
+              Zugriffsbeschränkungen auf Datenbankebene technisch abgesichert.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">14. Änderungen</h2>
+            <p>
+              Diese Datenschutzerklärung wird angepasst, wenn sich die Verarbeitung ändert. Es gilt
+              jeweils die auf dieser Seite veröffentlichte Fassung.
             </p>
           </div>
         </section>

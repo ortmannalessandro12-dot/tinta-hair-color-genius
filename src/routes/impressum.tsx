@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { TODO_EMAIL } from "@/lib/legal";
 
 export const Route = createFileRoute("/impressum")({
   head: () => ({
@@ -37,67 +38,62 @@ function ImpressumPage() {
 
         <section className="space-y-8">
           <div>
-            <h2 className="font-serif text-xl mb-2">Diensteanbieter</h2>
             <p>
-              [VOLLSTÄNDIGER NAME]
+              Alessandro Ortmann
               <br />
-              [STRASSE UND HAUSNUMMER]
+              Meidelstetter Straße 12
               <br />
-              [PLZ UND ORT]
+              72829 Engstingen
               <br />
-              [LAND]
+              Deutschland
             </p>
           </div>
 
           <div>
             <h2 className="font-serif text-xl mb-2">Kontakt</h2>
-            <p>
-              E-Mail: [E-MAIL-ADRESSE]
-              <br />
-              Telefon: [TELEFONNUMMER]
-            </p>
+            <p>E-Mail: {TODO_EMAIL}</p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">Umsatzsteuer</h2>
-            <p>
-              Umsatzsteuer-Identifikationsnummer gemäß § 27 a UStG: [USt-IdNr.]
-              <br />
-              Steuernummer: [STEUERNUMMER]
-              <br />
-              <span className="text-muted-foreground">
-                (Bei Kleinunternehmerregelung nach § 19 UStG: „Gemäß § 19 UStG wird keine
-                Umsatzsteuer berechnet.")
-              </span>
-            </p>
+            <h2 className="font-serif text-xl mb-2">
+              Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
+            </h2>
+            <p>Alessandro Ortmann, Anschrift wie oben</p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">Verantwortlich für den Inhalt</h2>
+            <h2 className="font-serif text-xl mb-2">Verbraucherstreitbeilegung</h2>
             <p>
-              [VERANTWORTLICHE PERSON]
-              <br />
-              [ANSCHRIFT, FALLS ABWEICHEND]
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-serif text-xl mb-2">EU-Streitschlichtung</h2>
-            <p>
-              Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung
-              bereit: https://ec.europa.eu/consumers/odr. Wir sind nicht verpflichtet und
-              nicht bereit, an einem Streitbeilegungsverfahren vor einer
+              Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
               Verbraucherschlichtungsstelle teilzunehmen.
             </p>
           </div>
 
           <div>
-            <h2 className="font-serif text-xl mb-2">Haftung für Inhalte und Links</h2>
+            <h2 className="font-serif text-xl mb-2">Haftung für Inhalte</h2>
             <p>
-              Die Inhalte dieser Anwendung wurden mit größter Sorgfalt erstellt. Für die
-              Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine
-              Gewähr übernommen werden. Für Inhalte externer Links sind ausschließlich
-              deren Betreiber verantwortlich.
+              Als Diensteanbieter bin ich gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten
+              nach den allgemeinen Gesetzen verantwortlich. Nach den §§ 8 bis 10 DDG bin ich als
+              Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+              Informationen zu überwachen oder nach Umständen zu forschen, die auf eine
+              rechtswidrige Tätigkeit hinweisen.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">Haftung für Links</h2>
+            <p>
+              Mein Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen
+              Einfluss habe. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
+              verantwortlich.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-xl mb-2">Urheberrecht</h2>
+            <p>
+              Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+              unterliegen dem deutschen Urheberrecht.
             </p>
           </div>
         </section>

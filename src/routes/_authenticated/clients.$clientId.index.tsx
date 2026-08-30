@@ -68,6 +68,7 @@ function ClientProfile() {
 
   return (
     <AppShell back={{ to: "/clients" }}>
+      <AllergyWarning allergies={data.client.allergies} />
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -81,6 +82,13 @@ function ClientProfile() {
         {data.client.note && (
           <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">{data.client.note}</p>
         )}
+        <Link
+          to="/clients/$clientId/edit"
+          params={{ clientId }}
+          className="inline-flex mt-4 items-center justify-center px-4 h-9 rounded-full border border-border text-sm hover:bg-secondary transition"
+        >
+          Bearbeiten
+        </Link>
       </motion.div>
 
       <div className="flex items-center justify-between mb-3">

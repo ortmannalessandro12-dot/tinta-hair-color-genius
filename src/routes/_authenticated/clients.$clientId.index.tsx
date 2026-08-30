@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { AllergyWarning } from "@/components/AllergyFields";
 
 export const Route = createFileRoute("/_authenticated/clients/$clientId/")({
   component: ClientProfile,

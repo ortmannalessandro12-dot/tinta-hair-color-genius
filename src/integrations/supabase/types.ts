@@ -16,6 +16,9 @@ export type Database = {
     Tables: {
       clients: {
         Row: {
+          allergies: string | null
+          allergy_consent: boolean
+          allergy_consent_at: string | null
           created_at: string
           id: string
           name: string
@@ -24,6 +27,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          allergies?: string | null
+          allergy_consent?: boolean
+          allergy_consent_at?: string | null
           created_at?: string
           id?: string
           name: string
@@ -32,6 +38,9 @@ export type Database = {
           user_id: string
         }
         Update: {
+          allergies?: string | null
+          allergy_consent?: boolean
+          allergy_consent_at?: string | null
           created_at?: string
           id?: string
           name?: string
@@ -111,6 +120,41 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "recipe_components_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipe_photos: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          recipe_id: string
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          recipe_id: string
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          recipe_id?: string
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_photos_recipe_id_fkey"
             columns: ["recipe_id"]
             isOneToOne: false
             referencedRelation: "recipes"

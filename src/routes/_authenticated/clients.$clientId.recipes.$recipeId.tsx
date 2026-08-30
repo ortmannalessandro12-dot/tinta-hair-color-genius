@@ -80,24 +80,26 @@ function RecipeDetail() {
 
       <ul className="space-y-3">
         {data.components.map((c, i) => (
-          <li key={c.id} className="card-soft p-5">
+          <li key={c.id} className="card-soft p-6">
             <div className="flex items-baseline justify-between mb-3">
               <div className="font-serif text-lg">Komponente {i + 1}</div>
               <div className="text-primary font-medium">{Number(c.grams).toFixed(0)} g</div>
             </div>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <Row label="Marke" value={c.brand_custom || c.brand} />
-              <Row label="Ton" value={c.shade_custom || c.shade} />
+              <Row label="Marke" value={c.brand_custom || c.brand} mono />
+              <Row label="Ton" value={c.shade_custom || c.shade} mono />
               {c.correction && <Row label="Korrektur" value={c.correction} />}
-              {c.developer && <Row label="Oxidant" value={c.developer} />}
-              {c.time_minutes != null && <Row label="Einwirkzeit" value={`${c.time_minutes} Min.`} />}
+              {c.developer && <Row label="Oxidant" value={c.developer} mono />}
+              {c.time_minutes != null && (
+                <Row label="Einwirkzeit" value={`${c.time_minutes} Min.`} mono />
+              )}
             </dl>
           </li>
         ))}
       </ul>
 
       {data.recipe.note && (
-        <div className="card-soft p-5 mt-3">
+        <div className="card-soft p-6 mt-3">
           <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Notiz</div>
           <p className="text-sm whitespace-pre-wrap">{data.recipe.note}</p>
         </div>
@@ -140,11 +142,19 @@ function Stat({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-function Row({ label, value }: { label: string; value: React.ReactNode }) {
+function Row({
+  label,
+  value,
+  mono,
+}: {
+  label: string;
+  value: React.ReactNode;
+  mono?: boolean;
+}) {
   return (
     <>
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className="text-right font-medium">{value}</dd>
+      <dd className={`text-right font-medium ${mono ? "font-mono tabular-nums" : ""}`}>{value}</dd>
     </>
   );
 }

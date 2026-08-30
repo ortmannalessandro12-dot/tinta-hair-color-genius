@@ -4,7 +4,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { Monogram } from "@/components/Monogram";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Plus, Search, LogOut, Menu, Receipt, Tag } from "lucide-react";
 import { formatDateDE } from "@/lib/tinta";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -78,13 +85,32 @@ function ClientsList() {
   return (
     <AppShell
       right={
-        <button
-          onClick={signOut}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-secondary transition text-muted-foreground"
-          aria-label="Abmelden"
-        >
-          <LogOut className="h-4 w-4" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-secondary transition text-muted-foreground"
+              aria-label="Menü"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <Link to="/consumption" className="flex items-center gap-2 cursor-pointer">
+                <Receipt className="h-4 w-4" /> Verbrauch
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/account/prices" className="flex items-center gap-2 cursor-pointer">
+                <Tag className="h-4 w-4" /> Preispflege
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={signOut} className="flex items-center gap-2 cursor-pointer">
+              <LogOut className="h-4 w-4" /> Abmelden
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       }
     >
       {/* Hintergrund-Illustration: groß, rechts, von oben bis unten */}

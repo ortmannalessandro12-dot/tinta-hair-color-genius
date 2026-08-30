@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BRANDS, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand } from "@/lib/tinta";
+import { useProductPrices } from "@/hooks/useProductPrices";
+import { computeRecipeCost, formatEUR } from "@/lib/prices";
 
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -82,6 +84,18 @@ function NewRecipe() {
   const totalGrams = useMemo(
     () => components.reduce((s, c) => s + (parseFloat(c.grams) || 0), 0),
     [components],
+  );
+
+  const { prices } = useProductPrices();
+  const cost = useMemo(
+    () =>
+      computeRecipeCost(
+        components
+          .filter((c) => c.brand && parseFloat(c.grams))
+          .map((c) => ({ brand: c.brand, grams: c.grams })),
+        prices,
+      ),
+    [components, prices],
   );
 
   function update(id: string, patch: Partial<Component>) {
@@ -176,6 +190,18 @@ function NewRecipe() {
               Gesamt: <span className="font-medium text-foreground">{totalGrams.toFixed(0)} g</span>
             </div>
           </div>
+
+          {cost.total > 0 && (
+            <div className="text-xs text-muted-foreground">
+              Materialkosten: <span className="font-mono tabular-nums">{formatEUR(cost.total)}</span>
+              {!cost.complete && (
+                <span className="text-muted-foreground/70">
+                  {" "}
+                  (unvollständig — für {cost.missingBrands.join(", ")} kein Preis hinterlegt)
+                </span>
+              )}
+            </div>
+          )}
 
           <AnimatePresence initial={false}>
             {components.map((c, idx) => (

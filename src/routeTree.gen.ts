@@ -21,6 +21,8 @@ import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authent
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as AuthenticatedClientsNewRouteImport } from './routes/_authenticated/clients.new'
 import { Route as AuthenticatedAccountBillingRouteImport } from './routes/_authenticated/account.billing'
+import { Route as AuthenticatedConsumptionRouteImport } from './routes/_authenticated/consumption'
+import { Route as AuthenticatedAccountPricesRouteImport } from './routes/_authenticated/account.prices'
 import { Route as AuthenticatedClientsClientIdIndexRouteImport } from './routes/_authenticated/clients.$clientId.index'
 import { Route as AuthenticatedClientsClientIdEditRouteImport } from './routes/_authenticated/clients.$clientId.edit'
 import { Route as AuthenticatedClientsClientIdRecipesNewRouteImport } from './routes/_authenticated/clients.$clientId.recipes.new'
@@ -87,6 +89,17 @@ const AuthenticatedAccountBillingRoute =
     path: '/account/billing',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedConsumptionRoute = AuthenticatedConsumptionRouteImport.update({
+  id: '/consumption',
+  path: '/consumption',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAccountPricesRoute =
+  AuthenticatedAccountPricesRouteImport.update({
+    id: '/account/prices',
+    path: '/account/prices',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedClientsClientIdIndexRoute =
   AuthenticatedClientsClientIdIndexRouteImport.update({
     id: '/$clientId/',
@@ -121,6 +134,8 @@ export interface FileRoutesByFullPath {
   '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
+  '/consumption': typeof AuthenticatedConsumptionRoute
+  '/account/prices': typeof AuthenticatedAccountPricesRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
@@ -137,6 +152,8 @@ export interface FileRoutesByTo {
   '/impressum': typeof ImpressumRoute
   '/subscribe': typeof AuthenticatedSubscribeRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
+  '/consumption': typeof AuthenticatedConsumptionRoute
+  '/account/prices': typeof AuthenticatedAccountPricesRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
@@ -156,6 +173,8 @@ export interface FileRoutesById {
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/subscribe': typeof AuthenticatedSubscribeRoute
   '/_authenticated/account/billing': typeof AuthenticatedAccountBillingRoute
+  '/_authenticated/consumption': typeof AuthenticatedConsumptionRoute
+  '/_authenticated/account/prices': typeof AuthenticatedAccountPricesRoute
   '/_authenticated/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
@@ -175,6 +194,8 @@ export interface FileRouteTypes {
     | '/clients'
     | '/subscribe'
     | '/account/billing'
+    | '/consumption'
+    | '/account/prices'
     | '/clients/new'
     | '/api/public/stripe-webhook'
     | '/clients/'
@@ -191,6 +212,8 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/subscribe'
     | '/account/billing'
+    | '/consumption'
+    | '/account/prices'
     | '/clients/new'
     | '/api/public/stripe-webhook'
     | '/clients'
@@ -209,6 +232,8 @@ export interface FileRouteTypes {
     | '/_authenticated/clients'
     | '/_authenticated/subscribe'
     | '/_authenticated/account/billing'
+    | '/_authenticated/consumption'
+    | '/_authenticated/account/prices'
     | '/_authenticated/clients/new'
     | '/api/public/stripe-webhook'
     | '/_authenticated/clients/'
@@ -314,6 +339,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountBillingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/consumption': {
+      id: '/_authenticated/consumption'
+      path: '/consumption'
+      fullPath: '/consumption'
+      preLoaderRoute: typeof AuthenticatedConsumptionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account/prices': {
+      id: '/_authenticated/account/prices'
+      path: '/account/prices'
+      fullPath: '/account/prices'
+      preLoaderRoute: typeof AuthenticatedAccountPricesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/clients/$clientId/': {
       id: '/_authenticated/clients/$clientId/'
       path: '/$clientId'
@@ -373,12 +412,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRouteWithChildren
   AuthenticatedSubscribeRoute: typeof AuthenticatedSubscribeRoute
   AuthenticatedAccountBillingRoute: typeof AuthenticatedAccountBillingRoute
+  AuthenticatedConsumptionRoute: typeof AuthenticatedConsumptionRoute
+  AuthenticatedAccountPricesRoute: typeof AuthenticatedAccountPricesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClientsRoute: AuthenticatedClientsRouteWithChildren,
   AuthenticatedSubscribeRoute: AuthenticatedSubscribeRoute,
   AuthenticatedAccountBillingRoute: AuthenticatedAccountBillingRoute,
+  AuthenticatedConsumptionRoute: AuthenticatedConsumptionRoute,
+  AuthenticatedAccountPricesRoute: AuthenticatedAccountPricesRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

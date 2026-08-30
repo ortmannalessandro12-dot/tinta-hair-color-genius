@@ -5,6 +5,8 @@ import { AppShell } from "@/components/AppShell";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDateDE } from "@/lib/tinta";
 import { RecipePhotos } from "@/components/RecipePhotos";
+import { useProductPrices } from "@/hooks/useProductPrices";
+import { computeRecipeCost, formatEUR } from "@/lib/prices";
 import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -27,6 +29,7 @@ function RecipeDetail() {
   const { clientId, recipeId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { prices } = useProductPrices();
 
   const { data, isLoading } = useQuery({
     queryKey: ["recipe", recipeId],
@@ -66,17 +69,30 @@ function RecipeDetail() {
   }
 
   const total = data.components.reduce((s, c) => s + Number(c.grams || 0), 0);
+  const cost = computeRecipeCost(data.components, prices);
 
   return (
     <AppShell
       back={{ to: "/clients/$clientId", params: { clientId } }}
       title={data.recipe.treatment}
     >
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-3 gap-3 mb-3">
         <Stat label="Gesamt" value={`${total.toFixed(0)} g`} />
         <Stat label="Komponenten" value={`${data.components.length}`} />
         <Stat label="Datum" value={formatDateDE(data.recipe.created_at)} />
       </div>
+
+      {cost.total > 0 && (
+        <div className="text-xs text-muted-foreground text-center mb-6">
+          Materialkosten: <span className="font-mono tabular-nums">{formatEUR(cost.total)}</span>
+          {!cost.complete && (
+            <span className="text-muted-foreground/70">
+              {" "}
+              (unvollständig — für {cost.missingBrands.join(", ")} kein Preis hinterlegt)
+            </span>
+          )}
+        </div>
+      )}
 
       <ul className="space-y-3">
         {data.components.map((c, i) => (

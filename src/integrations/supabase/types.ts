@@ -50,6 +50,48 @@ export type Database = {
         }
         Relationships: []
       }
+      product_prices: {
+        Row: {
+          brand: string
+          created_at: string
+          id: string
+          is_default: boolean
+          last_checked_at: string | null
+          price_eur: number
+          price_source: string | null
+          price_verified: boolean
+          tube_size_g: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          brand: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          last_checked_at?: string | null
+          price_eur: number
+          price_source?: string | null
+          price_verified?: boolean
+          tube_size_g: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          last_checked_at?: string | null
+          price_eur?: number
+          price_source?: string | null
+          price_verified?: boolean
+          tube_size_g?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avv_accepted_at: string | null

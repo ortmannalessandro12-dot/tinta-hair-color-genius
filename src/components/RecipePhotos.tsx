@@ -150,7 +150,7 @@ export function RecipePhotos({ recipeId }: { recipeId: string }) {
                   />
                 )}
               </button>
-              <span className="absolute left-1.5 bottom-1.5 rounded-full bg-background/85 px-2 py-0.5 text-[10px]">
+              <span className="absolute left-1.5 bottom-1.5 rounded-full bg-background/85 px-2.5 py-1 text-[10px]">
                 {PHOTO_KIND_LABEL[p.kind as PhotoKind]}
               </span>
               <button
@@ -245,7 +245,7 @@ export function StagedPhotos({
                 alt={PHOTO_KIND_LABEL[p.kind]}
                 className="aspect-square w-full rounded-xl object-cover"
               />
-              <span className="absolute left-1.5 bottom-1.5 rounded-full bg-background/85 px-2 py-0.5 text-[10px]">
+              <span className="absolute left-1.5 bottom-1.5 rounded-full bg-background/85 px-2.5 py-1 text-[10px]">
                 {PHOTO_KIND_LABEL[p.kind]}
               </span>
               <button

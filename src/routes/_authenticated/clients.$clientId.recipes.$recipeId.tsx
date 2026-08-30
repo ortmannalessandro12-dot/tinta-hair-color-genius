@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDateDE } from "@/lib/tinta";
+import { RecipePhotos } from "@/components/RecipePhotos";
 import { Trash2 } from "lucide-react";
 import {
   AlertDialog,

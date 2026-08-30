@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { AllergyFields } from "@/components/AllergyFields";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -20,7 +21,22 @@ function NewClient() {
   const qc = useQueryClient();
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
+  const [allergies, setAllergies] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [consentAt, setConsentAt] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  function onAllergyChange(patch: { consent?: boolean; allergies?: string }) {
+    if (patch.consent !== undefined) {
+      setConsent(patch.consent);
+      if (patch.consent) setConsentAt(new Date().toISOString());
+      else {
+        setAllergies("");
+        setConsentAt(null);
+      }
+    }
+    if (patch.allergies !== undefined) setAllergies(patch.allergies);
+  }
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +46,14 @@ function NewClient() {
       const { data: u } = await supabase.auth.getUser();
       const { data, error } = await supabase
         .from("clients")
-        .insert({ name: name.trim(), note: note.trim() || null, user_id: u.user!.id })
+        .insert({
+          name: name.trim(),
+          note: note.trim() || null,
+          user_id: u.user!.id,
+          allergies: consent ? allergies.trim() || null : null,
+          allergy_consent: consent,
+          allergy_consent_at: consent ? consentAt ?? new Date().toISOString() : null,
+        })
         .select("id")
         .single();
       if (error) throw error;
@@ -78,6 +101,8 @@ function NewClient() {
             />
           </div>
         </div>
+
+        <AllergyFields consent={consent} allergies={allergies} onChange={onAllergyChange} />
 
         <Button type="submit" disabled={saving || !name.trim()} className="w-full h-12 rounded-full">
           {saving ? "Speichert …" : "Kundin speichern"}

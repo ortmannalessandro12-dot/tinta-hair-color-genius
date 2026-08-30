@@ -22,6 +22,7 @@ import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/
 import { Route as AuthenticatedClientsNewRouteImport } from './routes/_authenticated/clients.new'
 import { Route as AuthenticatedAccountBillingRouteImport } from './routes/_authenticated/account.billing'
 import { Route as AuthenticatedClientsClientIdIndexRouteImport } from './routes/_authenticated/clients.$clientId.index'
+import { Route as AuthenticatedClientsClientIdEditRouteImport } from './routes/_authenticated/clients.$clientId.edit'
 import { Route as AuthenticatedClientsClientIdRecipesNewRouteImport } from './routes/_authenticated/clients.$clientId.recipes.new'
 import { Route as AuthenticatedClientsClientIdRecipesRecipeIdRouteImport } from './routes/_authenticated/clients.$clientId.recipes.$recipeId'
 
@@ -92,6 +93,12 @@ const AuthenticatedClientsClientIdIndexRoute =
     path: '/$clientId/',
     getParentRoute: () => AuthenticatedClientsRoute,
   } as any)
+const AuthenticatedClientsClientIdEditRoute =
+  AuthenticatedClientsClientIdEditRouteImport.update({
+    id: '/$clientId/edit',
+    path: '/$clientId/edit',
+    getParentRoute: () => AuthenticatedClientsRoute,
+  } as any)
 const AuthenticatedClientsClientIdRecipesNewRoute =
   AuthenticatedClientsClientIdRecipesNewRouteImport.update({
     id: '/$clientId/recipes/new',
@@ -117,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
+  '/clients/$clientId/edit': typeof AuthenticatedClientsClientIdEditRoute
   '/clients/$clientId/': typeof AuthenticatedClientsClientIdIndexRoute
   '/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
   '/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
@@ -132,6 +140,7 @@ export interface FileRoutesByTo {
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
+  '/clients/$clientId/edit': typeof AuthenticatedClientsClientIdEditRoute
   '/clients/$clientId': typeof AuthenticatedClientsClientIdIndexRoute
   '/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
   '/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
@@ -150,6 +159,7 @@ export interface FileRoutesById {
   '/_authenticated/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
+  '/_authenticated/clients/$clientId/edit': typeof AuthenticatedClientsClientIdEditRoute
   '/_authenticated/clients/$clientId/': typeof AuthenticatedClientsClientIdIndexRoute
   '/_authenticated/clients/$clientId/recipes/$recipeId': typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
   '/_authenticated/clients/$clientId/recipes/new': typeof AuthenticatedClientsClientIdRecipesNewRoute
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/clients/new'
     | '/api/public/stripe-webhook'
     | '/clients/'
+    | '/clients/$clientId/edit'
     | '/clients/$clientId/'
     | '/clients/$clientId/recipes/$recipeId'
     | '/clients/$clientId/recipes/new'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/clients/new'
     | '/api/public/stripe-webhook'
     | '/clients'
+    | '/clients/$clientId/edit'
     | '/clients/$clientId'
     | '/clients/$clientId/recipes/$recipeId'
     | '/clients/$clientId/recipes/new'
@@ -200,6 +212,7 @@ export interface FileRouteTypes {
     | '/_authenticated/clients/new'
     | '/api/public/stripe-webhook'
     | '/_authenticated/clients/'
+    | '/_authenticated/clients/$clientId/edit'
     | '/_authenticated/clients/$clientId/'
     | '/_authenticated/clients/$clientId/recipes/$recipeId'
     | '/_authenticated/clients/$clientId/recipes/new'
@@ -308,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsClientIdIndexRouteImport
       parentRoute: typeof AuthenticatedClientsRoute
     }
+    '/_authenticated/clients/$clientId/edit': {
+      id: '/_authenticated/clients/$clientId/edit'
+      path: '/$clientId/edit'
+      fullPath: '/clients/$clientId/edit'
+      preLoaderRoute: typeof AuthenticatedClientsClientIdEditRouteImport
+      parentRoute: typeof AuthenticatedClientsRoute
+    }
     '/_authenticated/clients/$clientId/recipes/new': {
       id: '/_authenticated/clients/$clientId/recipes/new'
       path: '/$clientId/recipes/new'
@@ -328,6 +348,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedClientsRouteChildren {
   AuthenticatedClientsNewRoute: typeof AuthenticatedClientsNewRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
+  AuthenticatedClientsClientIdEditRoute: typeof AuthenticatedClientsClientIdEditRoute
   AuthenticatedClientsClientIdIndexRoute: typeof AuthenticatedClientsClientIdIndexRoute
   AuthenticatedClientsClientIdRecipesRecipeIdRoute: typeof AuthenticatedClientsClientIdRecipesRecipeIdRoute
   AuthenticatedClientsClientIdRecipesNewRoute: typeof AuthenticatedClientsClientIdRecipesNewRoute
@@ -336,6 +357,7 @@ interface AuthenticatedClientsRouteChildren {
 const AuthenticatedClientsRouteChildren: AuthenticatedClientsRouteChildren = {
   AuthenticatedClientsNewRoute: AuthenticatedClientsNewRoute,
   AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
+  AuthenticatedClientsClientIdEditRoute: AuthenticatedClientsClientIdEditRoute,
   AuthenticatedClientsClientIdIndexRoute:
     AuthenticatedClientsClientIdIndexRoute,
   AuthenticatedClientsClientIdRecipesRecipeIdRoute:

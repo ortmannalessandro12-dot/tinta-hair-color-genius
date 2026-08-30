@@ -72,7 +72,7 @@ function ClientProfile() {
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-soft p-7 mb-6 text-center"
+        className="card-soft p-6 mb-6 text-center"
         style={{ background: "var(--gradient-card)" }}
       >
         <div className="flex justify-center mb-3">

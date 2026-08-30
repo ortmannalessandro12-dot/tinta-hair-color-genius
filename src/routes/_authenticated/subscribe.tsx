@@ -118,7 +118,7 @@ function SubscribePage() {
       <div className="max-w-md mx-auto">
         <div className="text-center mb-6">
 
-          <div className="inline-flex items-center gap-1.5 px-3 h-7 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
+          <div className="inline-flex items-center gap-1.5 px-2.5 h-7 rounded-full bg-primary/10 text-primary text-[11px] font-medium mb-4">
             <Sparkles className="h-3.5 w-3.5" /> Tinta Pro
           </div>
           <h1 className="font-serif text-3xl mb-2">

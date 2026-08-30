@@ -18,7 +18,9 @@ import { BRANDS, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand }
 
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AllergyWarning } from "@/components/AllergyFields";
+import { StagedPhotos, uploadRecipePhoto, type StagedPhoto } from "@/components/RecipePhotos";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/_authenticated/clients/$clientId/recipes/new")({

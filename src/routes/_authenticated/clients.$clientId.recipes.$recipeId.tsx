@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDateDE } from "@/lib/tinta";
+import { RecipePhotos } from "@/components/RecipePhotos";
 import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -101,6 +102,10 @@ function RecipeDetail() {
           <p className="text-sm whitespace-pre-wrap">{data.recipe.note}</p>
         </div>
       )}
+
+      <div className="mt-3">
+        <RecipePhotos recipeId={recipeId} />
+      </div>
 
       <div className="mt-10 pt-6 border-t border-border/60">
         <AlertDialog>

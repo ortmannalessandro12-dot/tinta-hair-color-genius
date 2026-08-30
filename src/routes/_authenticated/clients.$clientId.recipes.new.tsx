@@ -18,7 +18,9 @@ import { BRANDS, CORRECTIONS, DEVELOPERS, TIMES, TREATMENTS, getShadesForBrand }
 
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AllergyWarning } from "@/components/AllergyFields";
+import { StagedPhotos, uploadRecipePhoto, type StagedPhoto } from "@/components/RecipePhotos";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/_authenticated/clients/$clientId/recipes/new")({
@@ -62,6 +64,20 @@ function NewRecipe() {
   const [components, setComponents] = useState<Component[]>([blank()]);
   const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
+  const [photos, setPhotos] = useState<StagedPhoto[]>([]);
+
+  const { data: client } = useQuery({
+    queryKey: ["client-allergies", clientId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("clients")
+        .select("allergies")
+        .eq("id", clientId)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const totalGrams = useMemo(
     () => components.reduce((s, c) => s + (parseFloat(c.grams) || 0), 0),
@@ -108,6 +124,16 @@ function NewRecipe() {
       }));
       const { error: cErr } = await supabase.from("recipe_components").insert(rows);
       if (cErr) throw cErr;
+      if (photos.length > 0) {
+        try {
+          for (const p of photos) {
+            await uploadRecipePhoto({ userId, recipeId: recipe.id, file: p.file, kind: p.kind });
+          }
+        } catch (photoErr) {
+          console.error("[upload-photo]", photoErr);
+          toast.error("Rezeptur gespeichert, aber der Foto-Upload ist fehlgeschlagen.");
+        }
+      }
       qc.invalidateQueries({ queryKey: ["client", clientId] });
       qc.invalidateQueries({ queryKey: ["clients"] });
       toast.success("Rezeptur gespeichert");
@@ -126,6 +152,7 @@ function NewRecipe() {
   return (
     <AppShell back={{ to: "/clients/$clientId", params: { clientId } }} title="Neue Rezeptur">
       <div className="space-y-6">
+        <AllergyWarning allergies={client?.allergies} />
         <section>
           <Label className="mb-3 block">Behandlungsart</Label>
           <div className="flex flex-wrap gap-2">

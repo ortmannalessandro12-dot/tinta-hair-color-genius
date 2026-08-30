@@ -1,22 +1,22 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
-import { Monogram } from "@/components/Monogram";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { AllergyFields } from "@/components/AllergyFields";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/_authenticated/clients/new")({
-  component: NewClient,
+export const Route = createFileRoute("/_authenticated/clients/$clientId/edit")({
+  component: EditClient,
 });
 
-function NewClient() {
+function EditClient() {
+  const { clientId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [name, setName] = useState("");
@@ -25,6 +25,28 @@ function NewClient() {
   const [consent, setConsent] = useState(false);
   const [consentAt, setConsentAt] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["client-edit", clientId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("clients")
+        .select("*")
+        .eq("id", clientId)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (!data) return;
+    setName(data.name);
+    setNote(data.note ?? "");
+    setAllergies(data.allergies ?? "");
+    setConsent(!!data.allergy_consent);
+    setConsentAt(data.allergy_consent_at);
+  }, [data]);
 
   function onAllergyChange(patch: { consent?: boolean; allergies?: string }) {
     if (patch.consent !== undefined) {
@@ -43,25 +65,24 @@ function NewClient() {
     if (!name.trim()) return;
     setSaving(true);
     try {
-      const { data: u } = await supabase.auth.getUser();
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("clients")
-        .insert({
+        .update({
           name: name.trim(),
           note: note.trim() || null,
-          user_id: u.user!.id,
           allergies: consent ? allergies.trim() || null : null,
           allergy_consent: consent,
           allergy_consent_at: consent ? consentAt ?? new Date().toISOString() : null,
         })
-        .select("id")
-        .single();
+        .eq("id", clientId);
       if (error) throw error;
+      qc.invalidateQueries({ queryKey: ["client", clientId] });
+      qc.invalidateQueries({ queryKey: ["client-edit", clientId] });
       qc.invalidateQueries({ queryKey: ["clients"] });
-      toast.success("Kundin angelegt");
-      navigate({ to: "/clients/$clientId", params: { clientId: data.id } });
+      toast.success("Änderungen gespeichert");
+      navigate({ to: "/clients/$clientId", params: { clientId } });
     } catch (err) {
-      console.error("[save-client]", err);
+      console.error("[update-client]", err);
       toast.error("Speichern fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setSaving(false);
@@ -69,22 +90,15 @@ function NewClient() {
   }
 
   return (
-    <AppShell back={{ to: "/clients" }} title="Neue Kundin">
+    <AppShell back={{ to: "/clients/$clientId", params: { clientId } }} title="Kundin bearbeiten">
       <form onSubmit={save} className="space-y-6">
-        <div className="card-soft p-7 flex flex-col items-center text-center">
-          <Monogram name={name || "?"} size={84} />
-          <p className="text-xs text-muted-foreground mt-3">Vorschau Monogramm</p>
-        </div>
-
         <div className="card-soft p-6 space-y-5">
           <div className="space-y-1.5">
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
-              autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="z. B. Lina Bergmann"
               maxLength={80}
               required
             />
@@ -95,7 +109,6 @@ function NewClient() {
               id="note"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="z. B. empfindliche Kopfhaut"
               maxLength={500}
               rows={3}
             />
@@ -105,7 +118,7 @@ function NewClient() {
         <AllergyFields consent={consent} allergies={allergies} onChange={onAllergyChange} />
 
         <Button type="submit" disabled={saving || !name.trim()} className="w-full h-12 rounded-full">
-          {saving ? "Speichert …" : "Kundin speichern"}
+          {saving ? "Speichert …" : "Änderungen speichern"}
         </Button>
       </form>
     </AppShell>

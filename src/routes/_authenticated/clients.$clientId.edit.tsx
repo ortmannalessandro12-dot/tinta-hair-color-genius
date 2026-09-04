@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { AllergyFields } from "@/components/AllergyFields";
+import { TrialLockScreen } from "@/components/TrialLockScreen";
+import { useSubscription } from "@/hooks/useSubscription";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -19,6 +21,7 @@ function EditClient() {
   const { clientId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { loading: subLoading, hasAccess } = useSubscription();
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [allergies, setAllergies] = useState("");
@@ -87,6 +90,17 @@ function EditClient() {
     } finally {
       setSaving(false);
     }
+  }
+
+  if (subLoading) {
+    return (
+      <AppShell back={{ to: "/clients/$clientId", params: { clientId } }} title="Kundin bearbeiten">
+        <div className="h-40 card-soft animate-pulse" />
+      </AppShell>
+    );
+  }
+  if (!hasAccess) {
+    return <TrialLockScreen back={{ to: "/clients/$clientId", params: { clientId } }} />;
   }
 
   return (

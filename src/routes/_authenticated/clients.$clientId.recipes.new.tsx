@@ -23,6 +23,8 @@ import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AllergyWarning } from "@/components/AllergyFields";
 import { StagedPhotos, uploadRecipePhoto, type StagedPhoto } from "@/components/RecipePhotos";
+import { TrialLockScreen } from "@/components/TrialLockScreen";
+import { useSubscription } from "@/hooks/useSubscription";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/_authenticated/clients/$clientId/recipes/new")({
@@ -62,6 +64,7 @@ function NewRecipe() {
   const { clientId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { loading: subLoading, hasAccess } = useSubscription();
   const [treatment, setTreatment] = useState<string>("Coloration");
   const [components, setComponents] = useState<Component[]>([blank()]);
   const [note, setNote] = useState("");
@@ -161,6 +164,17 @@ function NewRecipe() {
     } finally {
       setSaving(false);
     }
+  }
+
+  if (subLoading) {
+    return (
+      <AppShell back={{ to: "/clients/$clientId", params: { clientId } }} title="Neue Rezeptur">
+        <div className="h-40 card-soft animate-pulse" />
+      </AppShell>
+    );
+  }
+  if (!hasAccess) {
+    return <TrialLockScreen back={{ to: "/clients/$clientId", params: { clientId } }} />;
   }
 
   return (

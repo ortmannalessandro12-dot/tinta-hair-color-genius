@@ -126,7 +126,7 @@ function SubscribePage() {
           </h1>
           {!hasPaidSubscription && (
             <p className="text-sm text-muted-foreground">
-              7 Tage gratis testen. Danach 14,99 € pro Monat. Jederzeit kündbar.
+              14 Tage gratis testen. Danach 14,99 € pro Monat. Jederzeit kündbar.
             </p>
           )}
         </div>
@@ -219,7 +219,7 @@ function SubscribePage() {
                 </p>
               )}
               <p className="text-xs text-muted-foreground text-center mt-3">
-                7 Tage kostenlos testen. Zahlung über Stripe, jederzeit kündbar.
+                14 Tage kostenlos testen. Zahlung über Stripe, jederzeit kündbar.
               </p>
 
             </div>

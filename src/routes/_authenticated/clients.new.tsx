@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { AllergyFields } from "@/components/AllergyFields";
+import { TrialLockScreen } from "@/components/TrialLockScreen";
+import { useSubscription } from "@/hooks/useSubscription";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/_authenticated/clients/new")({
 function NewClient() {
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { loading: subLoading, hasAccess } = useSubscription();
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [allergies, setAllergies] = useState("");
@@ -66,6 +69,17 @@ function NewClient() {
     } finally {
       setSaving(false);
     }
+  }
+
+  if (subLoading) {
+    return (
+      <AppShell back={{ to: "/clients" }} title="Neue Kundin">
+        <div className="h-40 card-soft animate-pulse" />
+      </AppShell>
+    );
+  }
+  if (!hasAccess) {
+    return <TrialLockScreen back={{ to: "/clients" }} />;
   }
 
   return (

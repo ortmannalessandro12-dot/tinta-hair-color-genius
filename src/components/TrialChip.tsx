@@ -23,7 +23,7 @@ export function TrialChip() {
     icon = <AlertCircle className="h-3 w-3" />;
     tone = "bg-destructive/10 text-destructive hover:bg-destructive/20";
   } else if (inTrial) {
-    label = `Test – noch ${trialDaysLeft} ${trialDaysLeft === 1 ? "Tag" : "Tage"}`;
+    label = `Noch ${trialDaysLeft} ${trialDaysLeft === 1 ? "Tag" : "Tage"} Test`;
     icon = <Sparkles className="h-3 w-3" />;
     tone =
       trialDaysLeft <= 2

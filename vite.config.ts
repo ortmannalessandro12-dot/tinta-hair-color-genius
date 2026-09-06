@@ -4,6 +4,11 @@
 //     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
+//
+// Vorschlag Vercel-Umzug: siehe nitro.config.ts im Projekt-Root (setzt den
+// Nitro-Preset auf "vercel" statt des hier standardmäßig genutzten
+// "cloudflare"). Falls diese Datei vom Wrapper nicht mit eingelesen wird,
+// zusätzlich NITRO_PRESET=vercel als Env-Var im Vercel-Projekt setzen.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({

@@ -5,6 +5,8 @@ import { AppShell } from "@/components/AppShell";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDateDE } from "@/lib/tinta";
 import { RecipePhotos } from "@/components/RecipePhotos";
+import { ColorTimer } from "@/components/ColorTimer";
+import { useFarbtimerSetting } from "@/hooks/useFarbtimerSetting";
 import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -27,6 +29,7 @@ function RecipeDetail() {
   const { clientId, recipeId } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { enabled: farbtimerEnabled } = useFarbtimerSetting();
 
   const { data, isLoading } = useQuery({
     queryKey: ["recipe", recipeId],
@@ -94,6 +97,7 @@ function RecipeDetail() {
                 <Row label="Einwirkzeit" value={`${c.time_minutes} Min.`} mono />
               )}
             </dl>
+            {c.time_minutes != null && farbtimerEnabled && <ColorTimer minutes={c.time_minutes} />}
           </li>
         ))}
       </ul>
@@ -142,15 +146,7 @@ function Stat({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-function Row({
-  label,
-  value,
-  mono,
-}: {
-  label: string;
-  value: React.ReactNode;
-  mono?: boolean;
-}) {
+function Row({ label, value, mono }: { label: string; value: React.ReactNode; mono?: boolean }) {
   return (
     <>
       <dt className="text-muted-foreground">{label}</dt>

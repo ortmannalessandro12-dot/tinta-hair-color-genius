@@ -8,7 +8,10 @@ function getOrigin(): string {
   const host = getRequestHeader("host");
   const proto = getRequestHeader("x-forwarded-proto") ?? "https";
   if (host) return `${proto}://${host}`;
-  return "https://tinta-hair-color-genius.lovable.app";
+  // Nur relevant, wenn weder Origin- noch Host-Header vorhanden sind (in der
+  // Praxis so gut wie nie). APP_URL als Server-Env-Var konfigurierbar, statt
+  // eine feste Domain im Code zu hinterlegen.
+  return process.env.APP_URL ?? "http://localhost:3000";
 }
 
 export const createCheckoutSession = createServerFn({ method: "POST" })

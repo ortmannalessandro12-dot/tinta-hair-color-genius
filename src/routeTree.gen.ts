@@ -16,7 +16,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSubscribeRouteImport } from './routes/_authenticated/subscribe'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedRecipesRouteImport } from './routes/_authenticated/recipes'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
+import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
+import { Route as AuthenticatedContactRouteImport } from './routes/_authenticated/contact'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
@@ -61,9 +66,34 @@ const AuthenticatedSubscribeRoute = AuthenticatedSubscribeRouteImport.update({
   path: '/subscribe',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRecipesRoute = AuthenticatedRecipesRouteImport.update({
+  id: '/recipes',
+  path: '/recipes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHelpRoute = AuthenticatedHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedContactRoute = AuthenticatedContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
@@ -126,7 +156,12 @@ export interface FileRoutesByFullPath {
   '/impressum': typeof ImpressumRoute
   '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/subscribe': typeof AuthenticatedSubscribeRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/recipes': typeof AuthenticatedRecipesRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/inventory': typeof AuthenticatedInventoryRoute
+  '/help': typeof AuthenticatedHelpRoute
+  '/contact': typeof AuthenticatedContactRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -143,7 +178,12 @@ export interface FileRoutesByTo {
   '/datenschutz': typeof DatenschutzRoute
   '/impressum': typeof ImpressumRoute
   '/subscribe': typeof AuthenticatedSubscribeRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/recipes': typeof AuthenticatedRecipesRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/inventory': typeof AuthenticatedInventoryRoute
+  '/help': typeof AuthenticatedHelpRoute
+  '/contact': typeof AuthenticatedContactRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -163,7 +203,12 @@ export interface FileRoutesById {
   '/impressum': typeof ImpressumRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/subscribe': typeof AuthenticatedSubscribeRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/recipes': typeof AuthenticatedRecipesRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
+  '/_authenticated/help': typeof AuthenticatedHelpRoute
+  '/_authenticated/contact': typeof AuthenticatedContactRoute
   '/_authenticated/account/billing': typeof AuthenticatedAccountBillingRoute
   '/_authenticated/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -183,7 +228,12 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/clients'
     | '/subscribe'
+    | '/settings'
+    | '/recipes'
+    | '/profile'
     | '/inventory'
+    | '/help'
+    | '/contact'
     | '/account/billing'
     | '/clients/new'
     | '/api/public/stripe-webhook'
@@ -200,7 +250,12 @@ export interface FileRouteTypes {
     | '/datenschutz'
     | '/impressum'
     | '/subscribe'
+    | '/settings'
+    | '/recipes'
+    | '/profile'
     | '/inventory'
+    | '/help'
+    | '/contact'
     | '/account/billing'
     | '/clients/new'
     | '/api/public/stripe-webhook'
@@ -219,7 +274,12 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/_authenticated/clients'
     | '/_authenticated/subscribe'
+    | '/_authenticated/settings'
+    | '/_authenticated/recipes'
+    | '/_authenticated/profile'
     | '/_authenticated/inventory'
+    | '/_authenticated/help'
+    | '/_authenticated/contact'
     | '/_authenticated/account/billing'
     | '/_authenticated/clients/new'
     | '/api/public/stripe-webhook'
@@ -291,11 +351,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSubscribeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/recipes': {
+      id: '/_authenticated/recipes'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof AuthenticatedRecipesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory': {
       id: '/_authenticated/inventory'
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof AuthenticatedInventoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/help': {
+      id: '/_authenticated/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof AuthenticatedHelpRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/contact': {
+      id: '/_authenticated/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof AuthenticatedContactRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/clients': {
@@ -391,14 +486,24 @@ const AuthenticatedClientsRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRouteWithChildren
   AuthenticatedSubscribeRoute: typeof AuthenticatedSubscribeRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedRecipesRoute: typeof AuthenticatedRecipesRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
+  AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
+  AuthenticatedContactRoute: typeof AuthenticatedContactRoute
   AuthenticatedAccountBillingRoute: typeof AuthenticatedAccountBillingRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClientsRoute: AuthenticatedClientsRouteWithChildren,
   AuthenticatedSubscribeRoute: AuthenticatedSubscribeRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedRecipesRoute: AuthenticatedRecipesRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
+  AuthenticatedHelpRoute: AuthenticatedHelpRoute,
+  AuthenticatedContactRoute: AuthenticatedContactRoute,
   AuthenticatedAccountBillingRoute: AuthenticatedAccountBillingRoute,
 }
 

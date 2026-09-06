@@ -5,9 +5,7 @@ import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { TrialChip } from "./TrialChip";
 import { AvvGate } from "./AvvGate";
 import { LegalFooter } from "./LegalFooter";
-
-
-
+import { MainMenu } from "./MainMenu";
 
 export function AppShell({
   children,
@@ -24,11 +22,12 @@ export function AppShell({
     <div className="min-h-screen pb-28">
       <header className="sticky top-0 z-30 backdrop-blur-xl bg-background/70 border-b border-border/60">
         <div className="mx-auto max-w-2xl px-5 h-16 flex items-center gap-3">
+          <MainMenu />
           {back ? (
             <Link
               to={back.to}
               params={back.params as never}
-              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-secondary transition"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-secondary transition"
               aria-label="Zurück"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -62,4 +61,3 @@ export function AppShell({
     </div>
   );
 }
-

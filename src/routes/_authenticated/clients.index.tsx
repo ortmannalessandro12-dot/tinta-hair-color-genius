@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { Monogram } from "@/components/Monogram";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, LogOut, Package } from "lucide-react";
+import { Plus, Search, LogOut } from "lucide-react";
 import { formatDateDE } from "@/lib/tinta";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -114,13 +114,6 @@ function ClientsList() {
           <p className="text-sm text-muted-foreground mt-2 max-w-[60%]">
             {data?.length ?? 0} {data?.length === 1 ? "Kundin" : "Kundinnen"} — jede Formel sicher verwahrt.
           </p>
-          {/* Provisorischer Einstiegspunkt, bis die geplante Menüleiste steht. */}
-          <Link
-            to="/inventory"
-            className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition"
-          >
-            <Package className="h-3.5 w-3.5" /> Inventar öffnen
-          </Link>
         </div>
 
         <div className="relative">

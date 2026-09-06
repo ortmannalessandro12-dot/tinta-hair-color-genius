@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSubscribeRouteImport } from './routes/_authenticated/subscribe'
+import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
@@ -58,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedSubscribeRoute = AuthenticatedSubscribeRouteImport.update({
   id: '/subscribe',
   path: '/subscribe',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/impressum': typeof ImpressumRoute
   '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/subscribe': typeof AuthenticatedSubscribeRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/datenschutz': typeof DatenschutzRoute
   '/impressum': typeof ImpressumRoute
   '/subscribe': typeof AuthenticatedSubscribeRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
   '/account/billing': typeof AuthenticatedAccountBillingRoute
   '/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/impressum': typeof ImpressumRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/subscribe': typeof AuthenticatedSubscribeRoute
+  '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/account/billing': typeof AuthenticatedAccountBillingRoute
   '/_authenticated/clients/new': typeof AuthenticatedClientsNewRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/clients'
     | '/subscribe'
+    | '/inventory'
     | '/account/billing'
     | '/clients/new'
     | '/api/public/stripe-webhook'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/datenschutz'
     | '/impressum'
     | '/subscribe'
+    | '/inventory'
     | '/account/billing'
     | '/clients/new'
     | '/api/public/stripe-webhook'
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/_authenticated/clients'
     | '/_authenticated/subscribe'
+    | '/_authenticated/inventory'
     | '/_authenticated/account/billing'
     | '/_authenticated/clients/new'
     | '/api/public/stripe-webhook'
@@ -277,6 +289,13 @@ declare module '@tanstack/react-router' {
       path: '/subscribe'
       fullPath: '/subscribe'
       preLoaderRoute: typeof AuthenticatedSubscribeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory': {
+      id: '/_authenticated/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedInventoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/clients': {
@@ -372,12 +391,14 @@ const AuthenticatedClientsRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRouteWithChildren
   AuthenticatedSubscribeRoute: typeof AuthenticatedSubscribeRoute
+  AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedAccountBillingRoute: typeof AuthenticatedAccountBillingRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClientsRoute: AuthenticatedClientsRouteWithChildren,
   AuthenticatedSubscribeRoute: AuthenticatedSubscribeRoute,
+  AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedAccountBillingRoute: AuthenticatedAccountBillingRoute,
 }
 
